@@ -92,7 +92,7 @@ async function getData(params, outs){
 
 
 
-async function getStoredProc(params, outs){
+async function getVIS_Calcular_KPI_Abasto_FillRate(params, outs){
 
 
   
@@ -172,7 +172,7 @@ async function getStoredProc(params, outs){
   
 } 
 
-router.get('/getSP',(req, res) => {
+router.get('/getSP/VIS_Calcular_KPI_Abasto_FillRate',(req, res) => {
 
   let inicio = moment();
   console.log("Llamada a SP : ");
@@ -180,7 +180,7 @@ router.get('/getSP',(req, res) => {
    
   res.setHeader('Content-Type', 'application/json');
 
-  getStoredProc(req.query,res).then((datos)=>{
+  getVIS_Calcular_KPI_Abasto_FillRate(req.query,res).then((datos)=>{
            
             res.setHeader('Content-Type', 'application/json');
             
