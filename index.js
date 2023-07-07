@@ -16,11 +16,11 @@ Interacciones en back con :
 
 
 
-
 const express = require('express')
 const sql = require('mssql')
 var moment = require('moment');
 const cors = require('cors');
+const fs = require('fs')
  
 
 
@@ -45,6 +45,28 @@ router.get('/query',(_req, res) => {
 router.get('/get',(_req, res) => {  
   res.sendFile(__dirname + "/get.html");
 });
+
+
+
+router.get('/img/:file', (_req,res) => {
+
+  console.log("Solicitud de img : ");
+  console.log(_req.params.file);
+
+  fs.readFile('./img/' + _req.params.file, function(err, data) {
+    if(err) {
+      res.send("Archivo no encontrado.");
+    } else {
+      // set the content type based on the file
+      res.contentType(_req.params.file);
+      res.send(data);
+    }
+    res.end();
+  });
+
+}
+);
+
 
 
 
@@ -186,13 +208,14 @@ router.get('/getSP/VIS_Calcular_KPI_Abasto_FillRate',(req, res) => {
             
             let medio = moment()
             try{
-             if(datos){
-              res.end(JSON.stringify(datos))
+             if(datos=== undefined){
+                res.end(JSON.stringify({'error':'timeout'}))
               } else {
-                res.end({'error':datos})
+                res.end(JSON.stringify(datos))
+               
               }
             } catch {
-              res.end({'error':'unknown'})
+              res.end(JSON.stringify({'error':'timeout'}))
             }
 
             let fin = moment()
@@ -218,7 +241,13 @@ router.get('/getData',(req, res) => {
             res.setHeader('Content-Type', 'application/json');
             
             let medio = moment()
-            res.end(JSON.stringify(datos.recordset))
+
+            if(datos.recordset === undefined){
+              res.end(JSON.stringify({'error':'timeout'}))
+            } else {
+              res.end(JSON.stringify(datos.recordset))
+            }
+           
 
             let fin = moment()
             console.log("Respondiendo query en : ", fin.diff(inicio));
@@ -229,6 +258,11 @@ router.get('/getData',(req, res) => {
 });
 
 
+
+// abasto, producc, ventas, oos, deficit flota
+// fill rate tabla
+// pedidos pend tabla
+// masivos < fill rate 
 
 const port = process.env.PORT || 8080;
 app.listen(port, () => {

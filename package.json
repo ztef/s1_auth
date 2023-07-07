@@ -1,5 +1,5 @@
 {
-  "package-name" : "vixbsqlerver",
+  "package-name": "vixbsqlerver",
   "name": "vixbsqlerver",
   "version": "1.0.0",
   "description": "VIX Generic MiddleWare for SQLSERVER",
@@ -13,6 +13,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.18.2",
+    "fs": "^0.0.1-security",
     "moment": "^2.29.4",
     "mssql": "^9.1.1"
   }
