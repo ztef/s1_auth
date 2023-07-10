@@ -76,7 +76,7 @@ async function getData(params, outs){
   //.input('fechaFin',params.fechaFin)
 
 
-  const q = "select Unidad_de_Negocio, ZonaTransporte, Cliente, Frente, dtDestara, dtLlegaCte, CantSolfinal, CantEntfinal,Estatus_Entrega_Orig_2,EstadoZTDem, RegionZTDem, vc50_UN_Tact from Vis_FillRate";
+  const q = "select Unidad_de_Negocio, ZonaTransporte, Cliente, Frente, dtDestara, dtLlegaCte, CantSolfinal, CantEntfinal,Estatus_Entrega_Orig_2,EstadoZTDem, RegionZTDem, vc50_UN_Tact, GerenciaUN, Segmento, AgrupProducto, Presentacion, Producto_Tactician, Año, Mes from Vis_FillRate";
   const w =" where dtDestara between '"+params.fechaInicio+"' and '"+params.fechaFin+"';"
 
 
@@ -197,6 +197,88 @@ async function getVIS_Calcular_KPI_Abasto_FillRate(params, outs){
   
 } 
 
+
+
+async function getVIS_Calcular_KPI_Produccion_FillRate(params, outs){
+
+
+  
+  var r = await sql.connect('Server=10.26.192.9,1483;Database=Cubo_CMP;User Id=command_shell;Password=devitnl76;Encrypt=false; parseJSON=false ').then(
+    pool => {
+    
+      
+
+       var RegionZTDem  = params.RegionZTDem === undefined ? null : params.RegionZTDem;
+       var EstadoZTDem  =  params.EstadoZTDem === undefined ? null : params.EstadoZTDem;
+       var ZonaTransporte  =  params. ZonaTransporte === undefined ? null : params. ZonaTransporte;
+       var Cliente =  params.Cliente === undefined ? null : params.Cliente;
+       var Nombre_Cliente  =  params.Nombre_Cliente === undefined ? null : params.Nombre_Cliente;
+       var Obra  =  params.Obra === undefined ? null : params.Obra
+       var Nombre_Obra  =  params.Nombre_Obra === undefined ? null : params.Nombre_Obra;
+       var Frente  =  params.Frente  === undefined ? null : params.Frente ;
+       var Nombre_Frente  =  params.Nombre_Frente === undefined ? null : params.Nombre_Frente;
+       var Segmento  =  params.Segmento === undefined ? null : params.Segmento;
+       var AgrupProducto  =  params.AgrupProducto === undefined ? null : params.AgrupProducto;
+       var Presentacion  =  params.Presentacion === undefined ? null : params.Presentacion;
+       var Producto_Tactician  =  params.Producto_Tactician === undefined ? null : params.Producto_Tactician;
+       var vc50_Region_UN  =  params.vc50_Region_UN === undefined ? null : params.vc50_Region_UN;
+       var GerenciaUN  =  params.GerenciaUN === undefined ? null : params.GerenciaUN;
+       var vc50_UN_Tact  =  params.vc50_UN_Tact === undefined ? null : params.vc50_UN_Tact;
+
+
+      // Stored procedure
+      
+      var r = pool.request()
+          .input('fechaInicio', params.fechaInicio)
+          .input('fechaFin',params.fechaFin)
+          .input('agrupador',params.agrupador)
+          .input('RegionZTDem' , RegionZTDem)
+          .input('EstadoZTDem', EstadoZTDem)
+          .input('ZonaTransporte', ZonaTransporte)
+          .input('Cliente', Cliente)
+          .input('Nombre_Cliente', Nombre_Cliente)
+          .input('Obra', Obra)
+          .input('Nombre_Obra',Nombre_Obra)
+          .input('Frente', Frente)
+          .input('Nombre_Frente', Nombre_Frente)
+          .input('Segmento', Segmento) 
+          .input('AgrupProducto', AgrupProducto)
+          .input('Presentacion',Presentacion)
+          .input('Producto_Tactician', Producto_Tactician)
+          .input('vc50_Region_UN', vc50_Region_UN)
+          .input('GerenciaUN', GerenciaUN )
+          .input('vc50_UN_Tact', vc50_UN_Tact)  
+
+
+
+
+          //.output('output_parameter', sql.VarChar(50))
+          .execute('VIS_Calcular_KPI_Produccion_FillRate')
+
+      return (r)
+  }
+  ).then(
+    result => {
+      console.dir(result)
+      return(result)
+
+  }
+  ).catch(
+    err => {
+     console.log(err)
+  }
+
+ 
+
+  );
+  
+  
+  return (r)
+  
+     
+  
+} 
+
 router.get('/getSP/VIS_Calcular_KPI_Abasto_FillRate',(req, res) => {
 
   let inicio = moment();
@@ -228,6 +310,39 @@ router.get('/getSP/VIS_Calcular_KPI_Abasto_FillRate',(req, res) => {
 
 
 });
+
+router.get('/getSP/VIS_Calcular_KPI_Produccion_FillRate',(req, res) => {
+
+  let inicio = moment();
+  console.log("Llamada a SP Produccion: ");
+  console.log(req.query);
+   
+  res.setHeader('Content-Type', 'application/json');
+
+  getVIS_Calcular_KPI_Abasto_FillRate(req.query,res).then((datos)=>{
+           
+            res.setHeader('Content-Type', 'application/json');
+            
+            let medio = moment()
+            try{
+             if(datos=== undefined){
+                res.end(JSON.stringify({'error':'timeout'}))
+              } else {
+                res.end(JSON.stringify(datos))
+               
+              }
+            } catch {
+              res.end(JSON.stringify({'error':'timeout'}))
+            }
+
+            let fin = moment()
+            console.log("Respondiendo SP en : ", fin.diff(inicio));
+
+    });
+
+
+});
+
 
 
 
