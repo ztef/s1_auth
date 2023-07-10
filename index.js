@@ -117,6 +117,38 @@ async function getData(params, outs){
 
 
 
+async function getTable(params, outs){
+
+  //.input('fechaInicio', params.fechaInicio)
+  //.input('fechaFin',params.fechaFin)
+
+
+  const q = "select * from " + params.table ;
+  const w = params.where === undefined ? "" : " where "+params.where;
+  
+  console.log("Query:",q+w+";")
+
+
+  try {  
+  await sql.connect('Server=10.26.192.9,1483;Database=Cubo_CMP;User Id=command_shell;Password=devitnl76;Encrypt=false; parseJSON=false ')
+  
+  const result = await sql.query(q+w);
+
+  return(result);
+
+
+
+    
+  } catch (err) {
+    return err
+  }
+} 
+
+
+
+
+
+
 async function getVIS_Calcular_KPI_Abasto_FillRate(params, outs){
 
 
@@ -337,6 +369,40 @@ router.get('/getSP/VIS_Calcular_KPI_Produccion_FillRate',(req, res) => {
 
             let fin = moment()
             console.log("Respondiendo SP en : ", fin.diff(inicio));
+
+    });
+
+
+});
+
+
+
+router.get('/getTable',(req, res) => {
+
+  let inicio = moment();
+  console.log("Llamada a getTable: ");
+  console.log(req.query);
+   
+  res.setHeader('Content-Type', 'application/json');
+
+  getTable(req.query,res).then((datos)=>{
+           
+            res.setHeader('Content-Type', 'application/json');
+            
+            let medio = moment()
+            try{
+             if(datos=== undefined){
+                res.end(JSON.stringify({'error':'timeout'}))
+              } else {
+                res.end(JSON.stringify(datos))
+               
+              }
+            } catch {
+              res.end(JSON.stringify({'error':'timeout'}))
+            }
+
+            let fin = moment()
+            console.log("Respondiendo getTable en : ", fin.diff(inicio));
 
     });
 
