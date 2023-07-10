@@ -72,9 +72,12 @@ router.get('/img/:file', (_req,res) => {
 
 async function getData(params, outs){
 
+  //.input('fechaInicio', params.fechaInicio)
+  //.input('fechaFin',params.fechaFin)
+
 
   const q = "select Unidad_de_Negocio, ZonaTransporte, Cliente, Frente, dtDestara, dtLlegaCte, CantSolfinal, CantEntfinal,Estatus_Entrega_Orig_2,EstadoZTDem, RegionZTDem, vc50_UN_Tact from Vis_FillRate";
-  const w =" where dtDestara between '2023-05-01' and '2023-05-31';"
+  const w =" where dtDestara between '"+params.fechaInicio+"' and '"+params.fechaFin+"';"
 
 
   try {  
