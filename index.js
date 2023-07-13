@@ -122,8 +122,8 @@ async function getTable(params, outs){
   //.input('fechaInicio', params.fechaInicio)
   //.input('fechaFin',params.fechaFin)
 
-
-  const q = "select * from " + params.table ;
+  const f = params.columns === undefined ? "*" : params.columns;
+  const q = "select "+f+" from " + params.table ;
   const w = params.where === undefined ? "" : " where "+params.where;
   
   console.log("Query:",q+w+";")
