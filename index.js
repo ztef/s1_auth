@@ -20,7 +20,31 @@ const express = require('express')
 const sql = require('mssql')
 var moment = require('moment');
 const cors = require('cors');
-const fs = require('fs')
+const fs = require('fs');
+const { rawListeners } = require('process');
+
+// await sql.connect('Server=10.26.192.9,1483;Database=Cubo_CMP;User Id=command_shell;Password=devitnl76;Encrypt=false; parseJSON=false ')
+ 
+
+const sqlconfig = { 
+  user: 'command_shell',
+  password: 'devitnl76',
+  port:1483,
+  server: '10.26.192.9',    //if your connecting to localhost\instance make sure you have the service 'SQL Server Browser' running. 
+  database: 'Cubo_CMP',
+  requestTimeout: 180000,
+  options: {
+      encrypt: false,
+      useUTC: true
+  },
+  pool: {
+      max: 10,
+      min: 0,
+      idleTimeoutMillis: 60000
+  }
+};
+
+
  
 
 
@@ -81,7 +105,7 @@ async function getData(params, outs){
 
 
   try {  
-  await sql.connect('Server=10.26.192.9,1483;Database=Cubo_CMP;User Id=command_shell;Password=devitnl76;Encrypt=false; parseJSON=false ')
+  await sql.connect(sqlconfig)
   
   const result = await sql.query(q+w);
 
@@ -130,8 +154,9 @@ async function getTable(params, outs){
 
 
   try {  
-  await sql.connect('Server=10.26.192.9,1483;Database=Cubo_CMP;User Id=command_shell;Password=devitnl76;Encrypt=false; parseJSON=false ')
+  //await sql.connect('Server=10.26.192.9,1483;Database=Cubo_CMP;User Id=command_shell;Password=devitnl76;Encrypt=false; parseJSON=false ')
   
+  await sql.connect(sqlconfig)
   const result = await sql.query(q+w);
 
   return(result);
@@ -140,9 +165,19 @@ async function getTable(params, outs){
 
     
   } catch (err) {
+    console.log(err)
     return err
   }
 } 
+
+
+
+
+
+
+
+
+
 
 
 
@@ -153,7 +188,7 @@ async function getVIS_Calcular_KPI_Abasto_FillRate(params, outs){
 
 
   
-  var r = await sql.connect('Server=10.26.192.9,1483;Database=Cubo_CMP;User Id=command_shell;Password=devitnl76;Encrypt=false; parseJSON=false ').then(
+  var r = await sql.connect(sqlconfig).then(
     pool => {
     
       
@@ -229,9 +264,32 @@ async function getVIS_Calcular_KPI_Abasto_FillRate(params, outs){
   
 } 
 
+
+
+
+
+
 //getVIS_Calcular_KPI_Venta_FillRate
 //getVIS_Calcular_KPI_OOS_FillRate
 //getVIS_Calcular_KPI_PedidosPendientes
+
+//fill rate
+//pedidos tarde
+//pedidos masivos
+// cump produccion
+//cump abasto
+//oos
+//deficit flota
+// venta
+
+
+// prod -> abasto -> oos ->
+//         def flota ->
+//        -> pedidos tarde
+//              -> masivos 
+
+
+
 
 //getVIS_Calcular_KPI_Flota_FillRate
 
@@ -240,7 +298,7 @@ async function getVIS_Calcular_KPI_Generico(params, outs){
 
 
   
-  var r = await sql.connect('Server=10.26.192.9,1483;Database=Cubo_CMP;User Id=command_shell;Password=devitnl76;Encrypt=false; parseJSON=false ').then(
+  var r = await sql.connect(sqlconfig).then(
     pool => {
     
       
@@ -326,7 +384,7 @@ async function getVIS_Calcular_KPI_Produccion_FillRate(params, outs){
 
 
   
-  var r = await sql.connect('Server=10.26.192.9,1483;Database=Cubo_CMP;User Id=command_shell;Password=devitnl76;Encrypt=false; parseJSON=false ').then(
+  var r = await sql.connect(sqlconfig).then(
     pool => {
     
       
