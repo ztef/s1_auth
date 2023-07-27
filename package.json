@@ -3,10 +3,10 @@
   "name": "vixbsqlerver",
   "version": "1.0.0",
   "description": "VIX Generic MiddleWare for SQLSERVER",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "node app.js"
   },
   "author": "visualinteractionsystems",
   "license": "ISC",
