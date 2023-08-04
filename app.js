@@ -100,7 +100,7 @@ async function getData(params, outs){
   //.input('fechaFin',params.fechaFin)
 
 
-  const q = "select Unidad_de_Negocio, ZonaTransporte, Cliente, Frente, dtDestara, dtLlegaCte, CantSolfinal, CantEntfinal,Estatus_Entrega_Orig_2,EstadoZTDem, RegionZTDem, vc50_UN_Tact, GerenciaUN, Segmento, AgrupProducto, Presentacion, Producto_Tactician, Año, Mes from Vis_FillRate";
+  const q = "select Unidad_de_Negocio, ZonaTransporte, Cliente, Frente, TipoPedido, dtDestara, dtLlegaCte, CantSolfinal, CantEntfinal,Estatus_Entrega_Orig_2,EstadoZTDem, RegionZTDem, vc50_UN_Tact, GerenciaUN, Segmento, AgrupProducto, Presentacion, Producto_Tactician, Año, Mes from Vis_FillRate";
   const w =" where dtDestara between '"+params.fechaInicio+"' and '"+params.fechaFin+"';"
 
 
