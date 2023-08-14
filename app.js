@@ -53,12 +53,14 @@ var router = express.Router();
 
 
 app.use(cors());
+app.options('*', cors());
 router.use(cors());
 app.use("/",router);
 
 
+app.use(express.static('public'));
 
-router.get('/',(_req, res) => {
+router.get('/about',(_req, res) => {
     res.sendFile(__dirname + "/main.html");
 });
 
@@ -101,7 +103,7 @@ async function getData(params, outs){
 
 
   const q = "select Unidad_de_Negocio, ZonaTransporte, Cliente, Frente, TipoPedido, dtDestara, dtLlegaCte, CantSolfinal, CantEntfinal,Estatus_Entrega_Orig_2,EstadoZTDem, RegionZTDem, vc50_UN_Tact, GerenciaUN, Segmento, AgrupProducto, Presentacion, Producto_Tactician, Año, Mes from Vis_FillRate";
-  const w =" where dtDestara between '"+params.fechaInicio+"' and '"+params.fechaFin+"';"
+  const w =" where dtDestara between '"+params.fechaInicio+"' and '"+params.fechaFin+"'T23:59:59:59.999Z;"
 
 
   try {  
@@ -572,6 +574,8 @@ router.get('/getSP/Generico',(req, res) => {
   getVIS_Calcular_KPI_Generico(req.query,res).then((datos)=>{
            
             res.setHeader('Content-Type', 'application/json');
+            res.setHeader('Access-Control-Allow-Origin', '*');
+
             
             let medio = moment()
             try{
