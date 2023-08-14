@@ -24,13 +24,13 @@ const fs = require('fs');
 const { rawListeners } = require('process');
 
 // await sql.connect('Server=10.26.192.9,1483;Database=Cubo_CMP;User Id=command_shell;Password=devitnl76;Encrypt=false; parseJSON=false ')
- 
 
-const sqlconfig = { 
+
+const sqlconfig = {
   user: 'command_shell',
   password: 'devitnl76',
   port:1483,
-  server: '10.26.192.9',    //if your connecting to localhost\instance make sure you have the service 'SQL Server Browser' running. 
+  server: '10.26.192.9',    //if your connecting to localhost\instance make sure you have the service 'SQL Server Browser' running.
   database: 'Cubo_CMP',
   requestTimeout: 180000,
   options: {
@@ -45,7 +45,7 @@ const sqlconfig = {
 };
 
 
- 
+
 
 
 const app = express();
@@ -64,11 +64,11 @@ router.get('/about',(_req, res) => {
     res.sendFile(__dirname + "/main.html");
 });
 
-router.get('/query',(_req, res) => {  
+router.get('/query',(_req, res) => {
     res.sendFile(__dirname + "/query.html");
 });
 
-router.get('/get',(_req, res) => {  
+router.get('/get',(_req, res) => {
   res.sendFile(__dirname + "/get.html");
 });
 
@@ -103,12 +103,12 @@ async function getData(params, outs){
 
 
   const q = "select Unidad_de_Negocio, ZonaTransporte, Cliente, Frente, TipoPedido, dtDestara, dtLlegaCte, CantSolfinal, CantEntfinal,Estatus_Entrega_Orig_2,EstadoZTDem, RegionZTDem, vc50_UN_Tact, GerenciaUN, Segmento, AgrupProducto, Presentacion, Producto_Tactician, Año, Mes from Vis_FillRate";
-  const w =" where dtDestara between '"+params.fechaInicio+"' and '"+params.fechaFin+"'T23:59:59:59.999Z;"
+  const w =" where dtDestara between '"+params.fechaInicio+"' and '"+params.fechaFin+"T23:59:59.999Z';"
 
 
-  try {  
+  try {
   await sql.connect(sqlconfig)
-  
+
   const result = await sql.query(q+w);
 
   return(result);
@@ -126,20 +126,20 @@ async function getData(params, outs){
            console.log(JSON.stringify({ result: 'success', msg: 'row', data:row}))
            outs.write(JSON.stringify({ msg: 'row', data:row}))
         })
-        
+
         request.on('done', result => {
           outs.write("]")
           outs.end()
         })
       */
-  
-  
+
+
       //console.log(result)
       //return(result)
   } catch (err) {
     return err
   }
-} 
+}
 
 
 
@@ -151,13 +151,13 @@ async function getTable(params, outs){
   const f = params.columns === undefined ? "*" : params.columns;
   const q = "select "+f+" from " + params.table ;
   const w = params.where === undefined ? "" : " where "+params.where;
-  
+
   console.log("Query:",q+w+";")
 
 
-  try {  
+  try {
   //await sql.connect('Server=10.26.192.9,1483;Database=Cubo_CMP;User Id=command_shell;Password=devitnl76;Encrypt=false; parseJSON=false ')
-  
+
   await sql.connect(sqlconfig)
   const result = await sql.query(q+w);
 
@@ -165,15 +165,58 @@ async function getTable(params, outs){
 
 
 
-    
+
   } catch (err) {
     console.log(err)
     return err
   }
-} 
+}
 
 
 
+
+
+
+async function getVIS_Calcular_FillRate_2(params, outs){
+
+
+console.log("ya entre");
+  var r = await sql.connect(sqlconfig).then(
+    pool => {
+
+
+      var fechaInicio = params.fechaInicio;
+      var fechaFin = params.fechaFin;
+
+
+
+      // Stored procedure
+
+      var r = pool.request().input('fechaInicio', fechaInicio).input('fechaFin', fechaFin).execute('VIS_Calcular_FillRate_2');
+
+      return (r)
+  }
+  ).then(
+    result => {
+      console.dir(result)
+      return(result)
+
+  }
+  ).catch(
+    err => {
+     console.log(err)
+  }
+
+
+
+  );
+
+
+  return (r)
+
+
+
+}
 
 
 
@@ -181,11 +224,11 @@ async function getTable(params, outs){
 async function getVIS_Calcular_KPI_Abasto_FillRate(params, outs){
 
 
-  
+
   var r = await sql.connect(sqlconfig).then(
     pool => {
-    
-      
+
+
 
        var RegionZTDem  = params.RegionZTDem === undefined ? null : params.RegionZTDem;
        var EstadoZTDem  =  params.EstadoZTDem === undefined ? null : params.EstadoZTDem;
@@ -205,8 +248,9 @@ async function getVIS_Calcular_KPI_Abasto_FillRate(params, outs){
        var vc50_UN_Tact  =  params.vc50_UN_Tact === undefined ? null : params.vc50_UN_Tact;
 
 
+
       // Stored procedure
-      
+
       var r = pool.request()
           .input('fechaInicio', params.fechaInicio)
           .input('fechaFin',params.fechaFin)
@@ -220,13 +264,14 @@ async function getVIS_Calcular_KPI_Abasto_FillRate(params, outs){
           .input('Nombre_Obra',Nombre_Obra)
           .input('Frente', Frente)
           .input('Nombre_Frente', Nombre_Frente)
-          .input('Segmento', Segmento) 
+          .input('Segmento', Segmento)
           .input('AgrupProducto', AgrupProducto)
           .input('Presentacion',Presentacion)
           .input('Producto_Tactician', Producto_Tactician)
           .input('vc50_Region_UN', vc50_Region_UN)
           .input('GerenciaUN', GerenciaUN )
-          .input('vc50_UN_Tact', vc50_UN_Tact)  
+          .input('vc50_UN_Tact', vc50_UN_Tact)
+
 
 
 
@@ -247,22 +292,22 @@ async function getVIS_Calcular_KPI_Abasto_FillRate(params, outs){
      console.log(err)
   }
 
- 
+
 
   );
-  
-  
+
+
   return (r)
-  
-     
-  
-} 
+
+
+
+}
 
 
 
 
 
-
+//getVIS_Calcular_KPI_FillRate_2
 //getVIS_Calcular_KPI_Venta_FillRate
 //getVIS_Calcular_KPI_OOS_FillRate
 //getVIS_Calcular_KPI_PedidosPendientes
@@ -280,7 +325,7 @@ async function getVIS_Calcular_KPI_Abasto_FillRate(params, outs){
 // prod -> abasto -> oos ->
 //         def flota ->
 //        -> pedidos tarde
-//              -> masivos 
+//              -> masivos
 
 
 
@@ -291,11 +336,11 @@ async function getVIS_Calcular_KPI_Abasto_FillRate(params, outs){
 async function getVIS_Calcular_KPI_Generico(params, outs){
 
 
-  
+
   var r = await sql.connect(sqlconfig).then(
     pool => {
-    
-      
+
+
 
        var RegionZTDem  = params.RegionZTDem === undefined ? null : params.RegionZTDem;
        var EstadoZTDem  =  params.EstadoZTDem === undefined ? null : params.EstadoZTDem;
@@ -316,7 +361,7 @@ async function getVIS_Calcular_KPI_Generico(params, outs){
 
 
       // Stored procedure
-      
+
       var r = pool.request()
           .input('fechaInicio', params.fechaInicio)
           .input('fechaFin',params.fechaFin)
@@ -330,13 +375,13 @@ async function getVIS_Calcular_KPI_Generico(params, outs){
           .input('Nombre_Obra',Nombre_Obra)
           .input('Frente', Frente)
           .input('Nombre_Frente', Nombre_Frente)
-          .input('Segmento', Segmento) 
+          .input('Segmento', Segmento)
           .input('AgrupProducto', AgrupProducto)
           .input('Presentacion',Presentacion)
           .input('Producto_Tactician', Producto_Tactician)
           .input('vc50_Region_UN', vc50_Region_UN)
           .input('GerenciaUN', GerenciaUN )
-          .input('vc50_UN_Tact', vc50_UN_Tact)  
+          .input('vc50_UN_Tact', vc50_UN_Tact)
 
           //.output('output_parameter', sql.VarChar(50))
           .execute(params.spname)
@@ -354,34 +399,34 @@ async function getVIS_Calcular_KPI_Generico(params, outs){
      console.log(err)
   }
 
- 
+
 
   );
-  
-  
+
+
   return (r)
-  
-     
-  
-} 
+
+
+
+}
 
 async function getVIS_Calcular_Cadena_Generico(params, outs){
 
 
-  
+
   var r = await sql.connect(sqlconfig).then(
     pool => {
-    
-      
+
+
 
        //var RegionZTDem  = params.RegionZTDem === undefined ? null : params.RegionZTDem;
       //
 
       // Stored procedure
-      
+
       var r = pool.request()
          // .input('fechaInicio', params.fechaInicio)
-         
+
 
           //.output('output_parameter', sql.VarChar(50))
           .execute(params.spname)
@@ -399,16 +444,16 @@ async function getVIS_Calcular_Cadena_Generico(params, outs){
      console.log(err)
   }
 
- 
+
 
   );
-  
-  
+
+
   return (r)
-  
-     
-  
-} 
+
+
+
+}
 
 
 
@@ -420,11 +465,11 @@ async function getVIS_Calcular_Cadena_Generico(params, outs){
 async function getVIS_Calcular_KPI_Produccion_FillRate(params, outs){
 
 
-  
+
   var r = await sql.connect(sqlconfig).then(
     pool => {
-    
-      
+
+
 
        var RegionZTDem  = params.RegionZTDem === undefined ? null : params.RegionZTDem;
        var EstadoZTDem  =  params.EstadoZTDem === undefined ? null : params.EstadoZTDem;
@@ -445,7 +490,7 @@ async function getVIS_Calcular_KPI_Produccion_FillRate(params, outs){
 
 
       // Stored procedure
-      
+
       var r = pool.request()
           .input('fechaInicio', params.fechaInicio)
           .input('fechaFin',params.fechaFin)
@@ -459,13 +504,13 @@ async function getVIS_Calcular_KPI_Produccion_FillRate(params, outs){
           .input('Nombre_Obra',Nombre_Obra)
           .input('Frente', Frente)
           .input('Nombre_Frente', Nombre_Frente)
-          .input('Segmento', Segmento) 
+          .input('Segmento', Segmento)
           .input('AgrupProducto', AgrupProducto)
           .input('Presentacion',Presentacion)
           .input('Producto_Tactician', Producto_Tactician)
           .input('vc50_Region_UN', vc50_Region_UN)
           .input('GerenciaUN', GerenciaUN )
-          .input('vc50_UN_Tact', vc50_UN_Tact)  
+          .input('vc50_UN_Tact', vc50_UN_Tact)
 
 
 
@@ -486,36 +531,69 @@ async function getVIS_Calcular_KPI_Produccion_FillRate(params, outs){
      console.log(err)
   }
 
- 
+
 
   );
-  
-  
-  return (r)
-  
-     
-  
-} 
 
-router.get('/getSP/VIS_Calcular_KPI_Abasto_FillRate',(req, res) => {
+
+  return (r)
+
+
+
+}
+
+router.get('/getSP/VIS_Calcular_FillRate_2',(req, res) => {
 
   let inicio = moment();
-  console.log("Llamada a SP : ");
+  console.log("Llamada a SP : ********");
   console.log(req.query);
-   
+
   res.setHeader('Content-Type', 'application/json');
 
-  getVIS_Calcular_KPI_Abasto_FillRate(req.query,res).then((datos)=>{
-           
+  getVIS_Calcular_FillRate_2(req.query,res).then((datos)=>{
+
             res.setHeader('Content-Type', 'application/json');
-            
+
             let medio = moment()
             try{
              if(datos=== undefined){
                 res.end(JSON.stringify({'error':'timeout'}))
               } else {
                 res.end(JSON.stringify(datos))
-               
+
+              }
+            } catch {
+              res.end(JSON.stringify({'error':'timeout'}))
+            }
+
+            let fin = moment()
+            console.log("Respondiendo SP en : ", fin.diff(inicio));
+
+    });
+
+
+});
+
+
+router.get('/getSP/VIS_Calcular_KPI_Abasto_FillRate',(req, res) => {
+
+  let inicio = moment();
+  console.log("Llamada a SP : ");
+  console.log(req.query);
+
+  res.setHeader('Content-Type', 'application/json');
+
+  getVIS_Calcular_KPI_Abasto_FillRate(req.query,res).then((datos)=>{
+
+            res.setHeader('Content-Type', 'application/json');
+
+            let medio = moment()
+            try{
+             if(datos=== undefined){
+                res.end(JSON.stringify({'error':'timeout'}))
+              } else {
+                res.end(JSON.stringify(datos))
+
               }
             } catch {
               res.end(JSON.stringify({'error':'timeout'}))
@@ -534,20 +612,20 @@ router.get('/getSP/VIS_Calcular_KPI_Produccion_FillRate',(req, res) => {
   let inicio = moment();
   console.log("Llamada a SP Produccion: ");
   console.log(req.query);
-   
+
   res.setHeader('Content-Type', 'application/json');
 
   getVIS_Calcular_KPI_Produccion_FillRate(req.query,res).then((datos)=>{
-           
+
             res.setHeader('Content-Type', 'application/json');
-            
+
             let medio = moment()
             try{
              if(datos=== undefined){
                 res.end(JSON.stringify({'error':'timeout'}))
               } else {
                 res.end(JSON.stringify(datos))
-               
+
               }
             } catch {
               res.end(JSON.stringify({'error':'timeout'}))
@@ -568,11 +646,11 @@ router.get('/getSP/Generico',(req, res) => {
   let inicio = moment();
   console.log("Llamada a SP Generico: ");
   console.log(req.query);
-   
+
   res.setHeader('Content-Type', 'application/json');
 
   getVIS_Calcular_KPI_Generico(req.query,res).then((datos)=>{
-           
+
             res.setHeader('Content-Type', 'application/json');
             res.setHeader('Access-Control-Allow-Origin', '*');
 
@@ -583,7 +661,7 @@ router.get('/getSP/Generico',(req, res) => {
                 res.end(JSON.stringify({'error':'timeout'}))
               } else {
                 res.end(JSON.stringify(datos))
-               
+
               }
             } catch {
               res.end(JSON.stringify({'error':'timeout'}))
@@ -603,20 +681,20 @@ router.get('/getSP/Cadena/Generico',(req, res) => {
   let inicio = moment();
   console.log("Llamada a SP Generico: ");
   console.log(req.query);
-   
+
   res.setHeader('Content-Type', 'application/json');
 
   getVIS_Calcular_Cadena_Generico(req.query,res).then((datos)=>{
-           
+
             res.setHeader('Content-Type', 'application/json');
-            
+
             let medio = moment()
             try{
              if(datos=== undefined){
                 res.end(JSON.stringify({'error':'timeout'}))
               } else {
                 res.end(JSON.stringify(datos))
-               
+
               }
             } catch {
               res.end(JSON.stringify({'error':'timeout'}))
@@ -642,20 +720,20 @@ router.get('/getTable',(req, res) => {
   let inicio = moment();
   console.log("Llamada a getTable: ");
   console.log(req.query);
-   
+
   res.setHeader('Content-Type', 'application/json');
 
   getTable(req.query,res).then((datos)=>{
-           
+
             res.setHeader('Content-Type', 'application/json');
-            
+
             let medio = moment()
             try{
              if(datos=== undefined){
                 res.end(JSON.stringify({'error':'timeout'}))
               } else {
                 res.end(JSON.stringify(datos))
-               
+
               }
             } catch {
               res.end(JSON.stringify({'error':'timeout'}))
@@ -677,13 +755,13 @@ router.get('/getData',(req, res) => {
   let inicio = moment();
   console.log("Recibiendo query : ");
   console.log(req.query);
-   
+
   res.setHeader('Content-Type', 'application/json');
 
   getData(req.query,res).then((datos)=>{
-           
+
             res.setHeader('Content-Type', 'application/json');
-            
+
             let medio = moment()
 
             if(datos.recordset === undefined){
@@ -691,7 +769,7 @@ router.get('/getData',(req, res) => {
             } else {
               res.end(JSON.stringify(datos.recordset))
             }
-           
+
 
             let fin = moment()
             console.log("Respondiendo query en : ", fin.diff(inicio));
@@ -706,10 +784,9 @@ router.get('/getData',(req, res) => {
 // abasto, producc, ventas, oos, deficit flota
 // fill rate tabla
 // pedidos pend tabla
-// masivos < fill rate 
+// masivos < fill rate
 
 const port = process.env.PORT || 8080;
 app.listen(port, () => {
   console.log(`VisualCEMEX Middleware Server , corriendo escuchando en puerto : ${port}!`);
 });
-
