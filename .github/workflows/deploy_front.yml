@@ -20,7 +20,7 @@ jobs:
 
       - name: Copy Submodule to Main Project
         run: |
-          cp -R path/to/submodule/. public/fillrate/
+          cp -R public/fillrate/. public/fillrate/
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
