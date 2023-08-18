@@ -305,7 +305,7 @@ async function getVIS_Calcular_KPI_Abasto_FillRate(params, outs){
 
 
 
-//getVIS_Calcular_KPI_FillRate_2
+//getVIS_Calcular_KPI_FillRate
 //getVIS_Calcular_KPI_Venta_FillRate
 //getVIS_Calcular_KPI_OOS_FillRate
 //getVIS_Calcular_KPI_PedidosPendientes
@@ -540,7 +540,7 @@ async function getVIS_Calcular_KPI_Produccion_FillRate(params, outs){
 
 }
 
-router.get('/getSP/VIS_Calcular_FillRate_2',(req, res) => {
+router.get('/getSP/VIS_Calcular_FillRate',(req, res) => {
 
   let inicio = moment();
   console.log("Llamada a SP : ********");
