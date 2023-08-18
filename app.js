@@ -542,7 +542,7 @@ async function getVIS_Calcular_KPI_Produccion_FillRate(params, outs){
 
 }
 
-router.get('/getSP/VIS_Calcular_FillRate_2',(req, res) => {
+router.get('/getSP/VIS_Calcular_FillRate',(req, res) => {
 
   let inicio = moment();
   console.log("Llamada a SP : ********");
