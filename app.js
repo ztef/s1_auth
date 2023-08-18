@@ -175,10 +175,10 @@ async function getTable(params, outs){
 
 
 
-async function getVIS_Calcular_FillRate_2(params, outs){
+async function getVIS_Calcular_FillRate(params, outs){
 
 
-console.log("ya entre");
+
   var r = await sql.connect(sqlconfig).then(
     pool => {
 
@@ -190,7 +190,7 @@ console.log("ya entre");
 
       // Stored procedure
 
-      var r = pool.request().input('fechaInicio', fechaInicio).input('fechaFin', fechaFin).execute('VIS_Calcular_FillRate_2');
+      var r = pool.request().input('fechaInicio', fechaInicio).input('fechaFin', fechaFin).execute('VIS_Calcular_FillRate');
 
       return (r)
   }
