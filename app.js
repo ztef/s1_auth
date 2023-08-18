@@ -552,7 +552,7 @@ router.get(['/getSP/VIS_Calcular_FillRate','/getSP/VIS_Calcular_FillRate_2'],(re
 
   res.setHeader('Content-Type', 'application/json');
 
-  getVIS_Calcular_FillRate_2(req.query,res).then((datos)=>{
+  getVIS_Calcular_FillRate(req.query,res).then((datos)=>{
 
             res.setHeader('Content-Type', 'application/json');
 
