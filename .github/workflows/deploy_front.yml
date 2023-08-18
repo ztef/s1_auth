@@ -1,4 +1,4 @@
-name: Deploy FrontEnd (Manual)
+name: PRUEBAS
 
 on:
   workflow_dispatch:
