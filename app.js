@@ -53,12 +53,14 @@ var router = express.Router();
 
 
 app.use(cors());
+app.options('*', cors());
 router.use(cors());
 app.use("/",router);
 
 
+app.use(express.static('public'));
 
-router.get('/',(_req, res) => {
+router.get('/about',(_req, res) => {
     res.sendFile(__dirname + "/main.html");
 });
 
@@ -650,7 +652,9 @@ router.get('/getSP/Generico',(req, res) => {
   getVIS_Calcular_KPI_Generico(req.query,res).then((datos)=>{
 
             res.setHeader('Content-Type', 'application/json');
+            res.setHeader('Access-Control-Allow-Origin', '*');
 
+            
             let medio = moment()
             try{
              if(datos=== undefined){
