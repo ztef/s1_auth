@@ -174,6 +174,48 @@ async function getTable(params, outs){
 
 
 
+async function getVIS_Calcular_OOSFilial(params, outs){
+
+
+
+  var r = await sql.connect(sqlconfig).then(
+    pool => {
+
+
+      var fechaInicio = params.fechaInicio;
+      var fechaFin = params.fechaFin;
+
+
+
+      // Stored procedure
+
+      var r = pool.request().input('fechaInicio', fechaInicio).input('fechaFin', fechaFin).execute('VIS_Calcular_OOSFilial');
+
+      return (r)
+  }
+  ).then(
+    result => {
+      console.dir(result)
+      return(result)
+
+  }
+  ).catch(
+    err => {
+     console.log(err)
+  }
+
+
+
+  );
+
+
+  return (r)
+
+
+
+}
+
+
 
 
 
@@ -541,6 +583,39 @@ async function getVIS_Calcular_KPI_Produccion_FillRate(params, outs){
 
 
 }
+
+router.get(['/getSP/VIS_Calcular_OOSFilial'],(req, res) => {
+
+  let inicio = moment();
+  console.log("Llamada a SP : ********");
+  console.log(req.query);
+
+  res.setHeader('Content-Type', 'application/json');
+
+  getVIS_Calcular_OOSFilial(req.query,res).then((datos)=>{
+
+            res.setHeader('Content-Type', 'application/json');
+
+            let medio = moment()
+            try{
+             if(datos=== undefined){
+                res.end(JSON.stringify({'error':'timeout'}))
+              } else {
+                res.end(JSON.stringify(datos))
+
+              }
+            } catch {
+              res.end(JSON.stringify({'error':'timeout'}))
+            }
+
+            let fin = moment()
+            console.log("Respondiendo SP en : ", fin.diff(inicio));
+
+    });
+
+
+});
+
 
 //Alias
 
