@@ -173,7 +173,6 @@ async function getTable(params, outs){
 }
 
 
-
 async function getVIS_Calcular_OOSFilial(params, outs){
 
 
@@ -215,9 +214,87 @@ async function getVIS_Calcular_OOSFilial(params, outs){
 
 }
 
+//Stored Procedure Fillrate
+
+async function getVIS_Calcular_FillRate_conParams(params, outs){
 
 
 
+  var r = await sql.connect(sqlconfig).then(
+    pool => {
+
+
+      var fechaInicio = params.fechaInicio;
+      var fechaFin = params.fechaFin;
+
+       var RegionZTDem  = params.RegionZTDem === undefined ? null : params.RegionZTDem;
+       var EstadoZTDem  =  params.EstadoZTDem === undefined ? null : params.EstadoZTDem;
+       var ZonaTransporte  =  params. ZonaTransporte === undefined ? null : params. ZonaTransporte;
+       var Cliente =  params.Cliente === undefined ? null : params.Cliente;
+       var Nombre_Cliente  =  params.Nombre_Cliente === undefined ? null : params.Nombre_Cliente;
+       var Obra  =  params.Obra === undefined ? null : params.Obra
+       var Nombre_Obra  =  params.Nombre_Obra === undefined ? null : params.Nombre_Obra;
+       var Frente  =  params.Frente  === undefined ? null : params.Frente ;
+       var Nombre_Frente  =  params.Nombre_Frente === undefined ? null : params.Nombre_Frente;
+       var Segmento  =  params.Segmento === undefined ? null : params.Segmento;
+       var AgrupProducto  =  params.AgrupProducto === undefined ? null : params.AgrupProducto;
+       var Presentacion  =  params.Presentacion === undefined ? null : params.Presentacion;
+       var Producto_Tactician  =  params.Producto_Tactician === undefined ? null : params.Producto_Tactician;
+       var vc50_Region_UN  =  params.vc50_Region_UN === undefined ? null : params.vc50_Region_UN;
+       var GerenciaUN  =  params.GerenciaUN === undefined ? null : params.GerenciaUN;
+       var vc50_UN_Tact  =  params.vc50_UN_Tact === undefined ? null : params.vc50_UN_Tact;
+
+
+      // Stored procedure
+
+      var r = pool.request()
+          .input('fechaInicio', params.fechaInicio)
+          .input('fechaFin', params.fechaFin)
+          .input('agrupador',params.agrupador)
+          .input('RegionZTDem' , RegionZTDem)
+          .input('EstadoZTDem', EstadoZTDem)
+          .input('ZonaTransporte', ZonaTransporte)
+          .input('Cliente', Cliente)
+          .input('Nombre_Cliente', Nombre_Cliente)
+          .input('Obra', Obra)
+          .input('Nombre_Obra',Nombre_Obra)
+          .input('Frente', Frente)
+          .input('Nombre_Frente', Nombre_Frente)
+          .input('Segmento', Segmento)
+          .input('AgrupProducto', AgrupProducto)
+          .input('Presentacion',Presentacion)
+          .input('Producto_Tactician', Producto_Tactician)
+          .input('vc50_Region_UN', vc50_Region_UN)
+          .input('GerenciaUN', GerenciaUN )
+          .input('vc50_UN_Tact', vc50_UN_Tact)
+          .execute('VIS_Calcular_FillRate_conParams');
+      return (r)
+  }
+  ).then(
+    result => {
+      console.dir(result)
+      return(result)
+
+  }
+  ).catch(
+    err => {
+     console.log(err)
+  }
+
+
+
+  );
+
+
+  return (r)
+
+
+
+}
+
+
+
+//Stored Procedure Fillrate
 
 async function getVIS_Calcular_FillRate(params, outs){
 
@@ -235,7 +312,7 @@ async function getVIS_Calcular_FillRate(params, outs){
       // Stored procedure
 
       var r = pool.request().input('fechaInicio', fechaInicio).input('fechaFin', fechaFin).execute('VIS_Calcular_FillRate');
-
+          
       return (r)
   }
   ).then(
@@ -400,7 +477,7 @@ async function getVIS_Calcular_KPI_Generico(params, outs){
        var vc50_Region_UN  =  params.vc50_Region_UN === undefined ? null : params.vc50_Region_UN;
        var GerenciaUN  =  params.GerenciaUN === undefined ? null : params.GerenciaUN;
        var vc50_UN_Tact  =  params.vc50_UN_Tact === undefined ? null : params.vc50_UN_Tact;
-
+       
 
       // Stored procedure
 
@@ -424,6 +501,7 @@ async function getVIS_Calcular_KPI_Generico(params, outs){
           .input('vc50_Region_UN', vc50_Region_UN)
           .input('GerenciaUN', GerenciaUN )
           .input('vc50_UN_Tact', vc50_UN_Tact)
+          
 
           //.output('output_parameter', sql.VarChar(50))
           .execute(params.spname)
@@ -584,6 +662,9 @@ async function getVIS_Calcular_KPI_Produccion_FillRate(params, outs){
 
 }
 
+
+//ROUTER'S
+
 router.get(['/getSP/VIS_Calcular_OOSFilial'],(req, res) => {
 
   let inicio = moment();
@@ -593,6 +674,40 @@ router.get(['/getSP/VIS_Calcular_OOSFilial'],(req, res) => {
   res.setHeader('Content-Type', 'application/json');
 
   getVIS_Calcular_OOSFilial(req.query,res).then((datos)=>{
+
+            res.setHeader('Content-Type', 'application/json');
+
+            let medio = moment()
+            try{
+             if(datos=== undefined){
+                res.end(JSON.stringify({'error':'timeout'}))
+              } else {
+                res.end(JSON.stringify(datos))
+
+              }
+            } catch {
+              res.end(JSON.stringify({'error':'timeout'}))
+            }
+
+            let fin = moment()
+            console.log("Respondiendo SP en : ", fin.diff(inicio));
+
+    });
+
+
+});
+
+//Fillrate con Parametros
+
+router.get('/getSP/VIS_Calcular_FillRate_conParams',(req, res) => {
+
+  let inicio = moment();
+  console.log("Llamada a SP : ********");
+  console.log(req.query);
+
+  res.setHeader('Content-Type', 'application/json');
+
+  getVIS_Calcular_FillRate_conParams(req.query,res).then((datos)=>{
 
             res.setHeader('Content-Type', 'application/json');
 
