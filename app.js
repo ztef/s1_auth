@@ -200,7 +200,7 @@ async function getVIS_Calcular_OOSFilial(params, outs){
        var vc50_Region_UN  =  params.vc50_Region_UN === undefined ? null : params.vc50_Region_UN;
        var GerenciaUN  =  params.GerenciaUN === undefined ? null : params.GerenciaUN;
        var vc50_UN_Tact  =  params.vc50_UN_Tact === undefined ? null : params.vc50_UN_Tact;
-       var Masivos  =  params.Masivos === undefined ? null : params.Masivos;
+       var masivos  =  params.masivos === undefined ? null : params.masivos;
 
       // Stored procedure
 
@@ -224,7 +224,7 @@ async function getVIS_Calcular_OOSFilial(params, outs){
           .input('vc50_Region_UN', vc50_Region_UN)
           .input('GerenciaUN', GerenciaUN )
           .input('vc50_UN_Tact', vc50_UN_Tact)
-          .input('Masivos', Masivos)
+          .input('masivos', masivos)
       
       .execute('VIS_Calcular_OOSFilial');
 
@@ -281,6 +281,7 @@ async function getVIS_Calcular_FillRate_conParams(params, outs){
        var vc50_Region_UN  =  params.vc50_Region_UN === undefined ? null : params.vc50_Region_UN;
        var GerenciaUN  =  params.GerenciaUN === undefined ? null : params.GerenciaUN;
        var vc50_UN_Tact  =  params.vc50_UN_Tact === undefined ? null : params.vc50_UN_Tact;
+       var masivos  =  params.masivos === undefined ? null : params.masivos;
 
 
       // Stored procedure
@@ -305,7 +306,8 @@ async function getVIS_Calcular_FillRate_conParams(params, outs){
           .input('vc50_Region_UN', vc50_Region_UN)
           .input('GerenciaUN', GerenciaUN )
           .input('vc50_UN_Tact', vc50_UN_Tact)
-          .execute('VIS_Calcular_FillRate_conParams');
+          .input('masivos', masivos)
+          .execute('VIS_Calcular_FillRate_conParams')
       return (r)
   }
   ).then(
@@ -403,7 +405,7 @@ async function getVIS_Calcular_KPI_Abasto_FillRate(params, outs){
        var vc50_Region_UN  =  params.vc50_Region_UN === undefined ? null : params.vc50_Region_UN;
        var GerenciaUN  =  params.GerenciaUN === undefined ? null : params.GerenciaUN;
        var vc50_UN_Tact  =  params.vc50_UN_Tact === undefined ? null : params.vc50_UN_Tact;
-
+       var masivos  =  params.masivos === undefined ? null : params.masivos;
 
 
       // Stored procedure
@@ -428,6 +430,7 @@ async function getVIS_Calcular_KPI_Abasto_FillRate(params, outs){
           .input('vc50_Region_UN', vc50_Region_UN)
           .input('GerenciaUN', GerenciaUN )
           .input('vc50_UN_Tact', vc50_UN_Tact)
+          .input('masivos', masivos)
 
 
 
@@ -515,7 +518,7 @@ async function getVIS_Calcular_KPI_Generico(params, outs){
        var vc50_Region_UN  =  params.vc50_Region_UN === undefined ? null : params.vc50_Region_UN;
        var GerenciaUN  =  params.GerenciaUN === undefined ? null : params.GerenciaUN;
        var vc50_UN_Tact  =  params.vc50_UN_Tact === undefined ? null : params.vc50_UN_Tact;
-       
+       var masivos  =  params.masivos === undefined ? null : params.masivos;
 
       // Stored procedure
 
@@ -539,6 +542,7 @@ async function getVIS_Calcular_KPI_Generico(params, outs){
           .input('vc50_Region_UN', vc50_Region_UN)
           .input('GerenciaUN', GerenciaUN )
           .input('vc50_UN_Tact', vc50_UN_Tact)
+          .input('masivos', masivos)
           
 
           //.output('output_parameter', sql.VarChar(50))
@@ -645,7 +649,7 @@ async function getVIS_Calcular_KPI_Produccion_FillRate(params, outs){
        var vc50_Region_UN  =  params.vc50_Region_UN === undefined ? null : params.vc50_Region_UN;
        var GerenciaUN  =  params.GerenciaUN === undefined ? null : params.GerenciaUN;
        var vc50_UN_Tact  =  params.vc50_UN_Tact === undefined ? null : params.vc50_UN_Tact;
-
+       var masivos  =  params.masivos === undefined ? null : params.masivos;
 
       // Stored procedure
 
@@ -669,6 +673,7 @@ async function getVIS_Calcular_KPI_Produccion_FillRate(params, outs){
           .input('vc50_Region_UN', vc50_Region_UN)
           .input('GerenciaUN', GerenciaUN )
           .input('vc50_UN_Tact', vc50_UN_Tact)
+          .input('masivos', masivos)
 
 
 
