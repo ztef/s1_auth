@@ -785,7 +785,6 @@ async function getVIS_Calcular_KPI_PedidosPendientes_Estado(params, outs){
   return (r)
 
 
-}
 
 //ROUTER'S
 
