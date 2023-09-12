@@ -377,7 +377,48 @@ async function getVIS_Calcular_FillRate(params, outs){
 
 }
 
+//VIS_GetFrentes_FillRate
 
+async function VIS_GetFrentes_FillRate(params, outs){
+
+
+
+  var r = await sql.connect(sqlconfig).then(
+    pool => {
+
+
+      var fechaInicio = params.fechaInicio;
+      var fechaFin = params.fechaFin;
+
+
+
+      // Stored procedure
+
+      var r = pool.request().input('fechaInicio', fechaInicio).input('fechaFin', fechaFin).input('agrupador', agrupador).execute('VIS_GetFrentes_FillRate');
+          
+      return (r)
+  }
+  ).then(
+    result => {
+      console.dir(result)
+      return(result)
+
+  }
+  ).catch(
+    err => {
+     console.log(err)
+  }
+
+
+
+  );
+
+
+  return (r)
+
+
+
+}
 
 
 async function getVIS_Calcular_KPI_Abasto_FillRate(params, outs){
@@ -518,7 +559,7 @@ async function getVIS_Calcular_KPI_Generico(params, outs){
        var vc50_Region_UN  =  params.vc50_Region_UN === undefined ? null : params.vc50_Region_UN;
        var GerenciaUN  =  params.GerenciaUN === undefined ? null : params.GerenciaUN;
        var vc50_UN_Tact  =  params.vc50_UN_Tact === undefined ? null : params.vc50_UN_Tact;
-       var masivos  =  params.masivos === undefined ? null : params.masivos;
+       
 
       // Stored procedure
 
@@ -542,7 +583,7 @@ async function getVIS_Calcular_KPI_Generico(params, outs){
           .input('vc50_Region_UN', vc50_Region_UN)
           .input('GerenciaUN', GerenciaUN )
           .input('vc50_UN_Tact', vc50_UN_Tact)
-          .input('masivos', masivos)
+          
           
 
           //.output('output_parameter', sql.VarChar(50))
@@ -581,16 +622,17 @@ async function getVIS_Calcular_Cadena_Generico(params, outs){
 
 
 
-       //var RegionZTDem  = params.RegionZTDem === undefined ? null : params.RegionZTDem;
-      //
+      // var RegionZTDem  = params.RegionZTDem === undefined ? null : params.RegionZTDem;
+      
 
-      // Stored procedure
+      //Stored procedure
 
       var r = pool.request()
-         // .input('fechaInicio', params.fechaInicio)
+          .input('fechaInicio', params.fechaInicio)
+          .input('fechaFin',params.fechaFin)
 
 
-          //.output('output_parameter', sql.VarChar(50))
+          .output('output_parameter', sql.VarChar(50))
           .execute(params.spname)
 
       return (r)
@@ -920,6 +962,39 @@ router.get(['/getSP/VIS_Calcular_FillRate','/getSP/VIS_Calcular_FillRate_2'],(re
 
 });
 
+//Alias
+
+router.get(['/getSP/VIS_GetFrentes_FillRate'],(req, res) => {
+
+  let inicio = moment();
+  console.log("Llamada a SP : ********");
+  console.log(req.query);
+
+  res.setHeader('Content-Type', 'application/json');
+
+  VIS_GetFrentes_FillRate(req.query,res).then((datos)=>{
+
+            res.setHeader('Content-Type', 'application/json');
+
+            let medio = moment()
+            try{
+             if(datos=== undefined){
+                res.end(JSON.stringify({'error':'timeout'}))
+              } else {
+                res.end(JSON.stringify(datos))
+
+              }
+            } catch {
+              res.end(JSON.stringify({'error':'timeout'}))
+            }
+
+            let fin = moment()
+            console.log("Respondiendo SP en : ", fin.diff(inicio));
+
+    });
+
+
+});
 
 router.get('/getSP/VIS_Calcular_KPI_Abasto_FillRate',(req, res) => {
 
