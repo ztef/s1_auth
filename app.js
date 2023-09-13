@@ -622,17 +622,16 @@ async function getVIS_Calcular_Cadena_Generico(params, outs){
 
 
 
-      // var RegionZTDem  = params.RegionZTDem === undefined ? null : params.RegionZTDem;
-      
+       //var RegionZTDem  = params.RegionZTDem === undefined ? null : params.RegionZTDem;
+      //
 
-      //Stored procedure
+      // Stored procedure
 
       var r = pool.request()
-          .input('fechaInicio', params.fechaInicio)
-          .input('fechaFin',params.fechaFin)
+         // .input('fechaInicio', params.fechaInicio)
 
 
-          .output('output_parameter', sql.VarChar(50))
+          //.output('output_parameter', sql.VarChar(50))
           .execute(params.spname)
 
       return (r)
