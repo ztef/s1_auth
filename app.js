@@ -377,6 +377,54 @@ async function getVIS_Calcular_FillRate(params, outs){
 
 }
 
+//Stored Procedure Fillrate
+
+async function getVIS_ObtenerFechas(params, outs){
+
+
+
+  var r = await sql.connect(sqlconfig).then(
+    pool => {
+
+
+      var fechaInicio = params.fechaInicio;
+      var fechaFin = params.fechaFin;
+      var Pantalla = Pantalla;
+
+
+      // Stored procedure
+
+      var r = pool.request()
+          .input('fechaInicio', fechaInicio)
+          .input('fechaFin', fechaFin)
+          .input('Pantalla', Pantalla)
+          .execute('VIS_ObtenerFechas');
+          
+      return (r)
+  }
+  ).then(
+    result => {
+      console.dir(result)
+      return(result)
+
+  }
+  ).catch(
+    err => {
+     console.log(err)
+  }
+
+
+
+  );
+
+
+  return (r)
+
+
+
+}
+
+
 //VIS_GetFrentes_FillRate
 
 async function VIS_GetFrentes_FillRate(params, outs){
@@ -823,6 +871,40 @@ async function getVIS_Calcular_KPI_PedidosPendientes_Estado(params, outs){
   return (r)
 }
   //ROUTER'S
+
+  // Obtener Fechas
+
+router.get(['/getSP/VIS_ObtenerFechas'],(req, res) => {
+
+  let inicio = moment();
+  console.log("Llamada a SP : ********");
+  console.log(req.query);
+
+  res.setHeader('Content-Type', 'application/json');
+
+  getVIS_ObtenerFechas(req.query,res).then((datos)=>{
+
+            res.setHeader('Content-Type', 'application/json');
+
+            let medio = moment()
+            try{
+             if(datos=== undefined){
+                res.end(JSON.stringify({'error':'timeout'}))
+              } else {
+                res.end(JSON.stringify(datos))
+
+              }
+            } catch {
+              res.end(JSON.stringify({'error':'timeout'}))
+            }
+
+            let fin = moment()
+            console.log("Respondiendo SP en : ", fin.diff(inicio));
+
+    });
+
+
+});
 
 // Pedidos Pendientes
 
