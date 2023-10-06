@@ -58,8 +58,36 @@ router.use(cors());
 app.use("/",router);
 
 
+function getIP(req) {
+  // req.connection is deprecated
+  const conRemoteAddress = req.connection?.remoteAddress
+  // req.socket is said to replace req.connection
+  const sockRemoteAddress = req.socket?.remoteAddress
+  // some platforms use x-real-ip
+  const xRealIP = req.headers['x-real-ip']
+  // most proxies use x-forwarded-for
+  const xForwardedForIP = (() => {
+    const xForwardedFor = req.headers['x-forwarded-for']
+    if (xForwardedFor) {
+      // The x-forwarded-for header can contain a comma-separated list of
+      // IP's. Further, some are comma separated with spaces, so whitespace is trimmed.
+      const ips = xForwardedFor.split(',').map(ip => ip.trim())
+      return ips[0]
+    }
+  })()
+  // prefer x-forwarded-for and fallback to the others
+  return xForwardedForIP || xRealIP || sockRemoteAddress || conRemoteAddress
+}
+
+
+
 function blockPublicIP(req, res, next) {
-  const clientIP = req.ip; // Get the client's IP address from the request
+
+  
+
+  // Get the client's full IP address
+  const clientIP = getIP(req);
+  console.log("INCOMING ADDRESS : ",clientIP);
 
   // Check for the URL parameter 'user' with the value 'externalAllowed'
   const isExternalAllowed = req.query.user === 'externalAllowed';
@@ -67,19 +95,27 @@ function blockPublicIP(req, res, next) {
   // Split the IP address into its octets
   const octets = clientIP.split('.');
   
-  // Allow requests from the 10.0.0.0/8 range (private IP addresses)
-  if (octets.length === 4 && octets[0] === '10') {
+  // Allow requests from the 10.0.0.0/8 range (private IP addresses) and 192.0.0.0/8 range (private IP addresses)
+  if (
+    (octets.length === 4 && octets[0] === '10') ||
+    (octets.length === 4 && octets[0] === '192')
+  ) {
     next();
   } else if (isExternalAllowed) {
     // Allow requests with the 'user=externalAllowed' parameter
     next();
   } else {
-    // Block all other requests
-    return res.status(403).send('Access denied from your IP address.');
+    if((req.url == 'https://uscldv3dwad01.azurewebsites.net/fillrate/') || (req.url == 'https://uscldv3dwad01.azurewebsites.net/')){
+      return res.status(403).send('Access denied from your IP address.'+clientIP);
+    } else {
+      next();
+    }
   }
 }
 
-app.use('/public', blockPublicIP, express.static('public'));
+
+
+app.use('/', blockPublicIP, express.static('public'));
 
 //app.use(express.static('public'));
 
