@@ -89,6 +89,7 @@ function blockPublicIP(req, res, next) {
   const clientIP = getIP(req);
   console.log("INCOMING ADDRESS : ",clientIP);
 
+
   // Check for the URL parameter 'user' with the value 'externalAllowed'
   const isExternalAllowed = req.query.user === 'externalAllowed';
 
@@ -105,7 +106,7 @@ function blockPublicIP(req, res, next) {
     // Allow requests with the 'user=externalAllowed' parameter
     next();
   } else {
-    if((req.url == 'https://uscldv3dwad01.azurewebsites.net/fillrate/') || (req.url == 'https://uscldv3dwad01.azurewebsites.net/')){
+    if((req.url == 'https://uscldv3dwad01.azurewebsites.net/fillrate') || (req.url == 'https://uscldv3dwad01.azurewebsites.net')){
       return res.status(403).send('Access denied from your IP address.'+clientIP);
     } else {
       next();
