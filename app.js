@@ -82,20 +82,16 @@ function getIP(req) {
 
 
 function blockPublicIP(req, res, next) {
-
-  
-
   // Get the client's full IP address
   const clientIP = getIP(req);
-  console.log("INCOMING ADDRESS : ",clientIP);
-
+  console.log("INCOMING ADDRESS:", clientIP);
 
   // Check for the URL parameter 'user' with the value 'externalAllowed'
   const isExternalAllowed = req.query.user === 'externalAllowed';
 
   // Split the IP address into its octets
   const octets = clientIP.split('.');
-  
+
   // Allow requests from the 10.0.0.0/8 range (private IP addresses) and 192.0.0.0/8 range (private IP addresses)
   if (
     (octets.length === 4 && octets[0] === '10') ||
@@ -105,14 +101,14 @@ function blockPublicIP(req, res, next) {
   } else if (isExternalAllowed) {
     // Allow requests with the 'user=externalAllowed' parameter
     next();
+  } else if (req.path === '/fillrate' || req.path === '/') {
+    // Block access to specific routes (e.g., '/fillrate') or the root URL ('/')
+    return res.status(403).send('Access denied from your IP address: ' + clientIP);
   } else {
-    if((req.url == 'https://uscldv3dwad01.azurewebsites.net/fillrate') || (req.url == 'https://uscldv3dwad01.azurewebsites.net')){
-      return res.status(403).send('Access denied from your IP address.'+clientIP);
-    } else {
-      next();
-    }
+    next();
   }
 }
+
 
 
 
