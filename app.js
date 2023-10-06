@@ -58,7 +58,30 @@ router.use(cors());
 app.use("/",router);
 
 
-app.use(express.static('public'));
+function blockPublicIP(req, res, next) {
+  const clientIP = req.ip; // Get the client's IP address from the request
+
+  // Check for the URL parameter 'user' with the value 'externalAllowed'
+  const isExternalAllowed = req.query.user === 'externalAllowed';
+
+  // Split the IP address into its octets
+  const octets = clientIP.split('.');
+  
+  // Allow requests from the 10.0.0.0/8 range (private IP addresses)
+  if (octets.length === 4 && octets[0] === '10') {
+    next();
+  } else if (isExternalAllowed) {
+    // Allow requests with the 'user=externalAllowed' parameter
+    next();
+  } else {
+    // Block all other requests
+    return res.status(403).send('Access denied from your IP address.');
+  }
+}
+
+app.use('/public', blockPublicIP, express.static('public'));
+
+//app.use(express.static('public'));
 
 router.get('/about',(_req, res) => {
     res.sendFile(__dirname + "/main.html");
@@ -92,6 +115,13 @@ router.get('/img/:file', (_req,res) => {
 
 }
 );
+
+
+
+
+
+
+
 
 
 
