@@ -101,7 +101,7 @@ function blockPublicIP(req, res, next) {
   } else if (isExternalAllowed) {
     // Allow requests with the 'user=externalAllowed' parameter
     next();
-  } else if (req.path === '/fillrate' || req.path === '/') {
+  } else if (req.path === '/fillrate' || req.path === '/' || req.path === '/fillrate/' || req.path === '/index.html') { 
     // Block access to specific routes (e.g., '/fillrate') or the root URL ('/')
     return res.status(403).send('Access denied from your IP address: ' + clientIP);
   } else {
