@@ -117,9 +117,9 @@ function blockPublicIP(req, res, next) {
 
 
 
-//app.use('/', blockPublicIP, express.static('public'));
+app.use('/', blockPublicIP, express.static('public'));
 
-app.use(express.static('public'));
+//app.use(express.static('public'));
 
 router.get('/about',(_req, res) => {
     res.sendFile(__dirname + "/main.html");
