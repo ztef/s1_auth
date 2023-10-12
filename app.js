@@ -63,6 +63,19 @@ router.use(cors());
 app.use("/",router);
 
 
+
+app.use((req, res, next) => {
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('Strict-Transport-Security', 'max-age=31536000');
+  res.setHeader(
+    'Content-Security-Policy',
+    "frame-ancestors 'self' "
+  );
+  res.removeHeader('Server');
+  next();
+});
+
+
 function getIP(req) {
  
   const conRemoteAddress = req.connection?.remoteAddress
@@ -374,7 +387,7 @@ async function getData(params, outs){
  */
 
 
-
+//Vis_CatRegion, Vis_CatEstado, Vis_CatGerenciaCS, Vis_CatUN_Cemento
 
 async function getTable(params, outs){
 
