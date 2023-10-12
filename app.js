@@ -117,9 +117,9 @@ function blockPublicIP(req, res, next) {
 
 
 
-app.use('/', blockPublicIP, express.static('public'));
+//app.use('/', blockPublicIP, express.static('public'));
 
-//app.use(express.static('public'));
+app.use(express.static('public'));
 
 router.get('/about',(_req, res) => {
     res.sendFile(__dirname + "/main.html");
@@ -378,31 +378,57 @@ async function getData(params, outs){
 
 async function getTable(params, outs){
 
-  //.input('fechaInicio', params.fechaInicio)
-  //.input('fechaFin',params.fechaFin)
+  let table = "";
 
-  const f = params.columns === undefined ? "*" : params.columns;
-  const q = "select "+f+" from " + params.table ;
-  const w = params.where === undefined ? "" : " where "+params.where;
-
-  console.log("Query:",q+w+";")
-
-
-  try {
-  //await sql.connect('Server=10.26.192.9,1483;Database=Cubo_CMP;User Id=command_shell;Password=devitnl76;Encrypt=false; parseJSON=false ')
-
-  await sql.connect(sqlconfig)
-  const result = await sql.query(q+w);
-
-  return(result);
-
-
-
-
-  } catch (err) {
-    console.log(err)
-    return err
+  switch (params.table) {
+    case "Vis_CatRegion":
+      table = "Vis_CatRegion";
+      break;
+    case "Vis_CatEstado":
+      table="Vis_CatEstado";
+      break;
+    case "Vis_CatGerenciaCS":
+      table = "Vis_CatGerenciaCS";
+      break;
+    case "Vis_CatUN_Cemento":
+      table = "Vis_CatUN_Cemento";
+      break;
+    
+    default:
+      table = "";
   }
+
+
+
+  if(table != "" ) {
+
+      const f = params.columns === undefined ? "*" : params.columns;
+      const q = "select "+f+" from " + table ;
+      const w = params.where === undefined ? "" : " where "+params.where;
+
+      console.log("Query:",q+w+";")
+
+
+      try {
+      //await sql.connect('Server=10.26.192.9,1483;Database=Cubo_CMP;User Id=command_shell;Password=devitnl76;Encrypt=false; parseJSON=false ')
+
+      await sql.connect(sqlconfig)
+      const result = await sql.query(q+w);
+
+      return(result);
+
+
+
+
+      } catch (err) {
+        console.log(err)
+        return err
+      }
+    } else {
+
+      return {}
+
+    }
 }
 
 
