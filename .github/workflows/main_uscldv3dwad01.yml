@@ -4,10 +4,11 @@
 name: Deploy Manual a Testing
 
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
+    inputs:
+      custom-parameter:
+        description: 'Descripcion del deploy'
+        required: false
 
 jobs:
   build:
