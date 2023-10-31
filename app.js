@@ -28,12 +28,15 @@ var moment = require('moment');
 const cors = require('cors');
 const fs = require('fs');
 const { rawListeners } = require('process');
+require('dotenv').config();
 
+const dbPassword = process.env.DB_PASSWORD;
 
+console.log(dbPassword);
 
 const sqlconfig = {
   user: 'command_shell',
-  password: 'devitnl76',
+  password: dbPassword,
   port:1483,
   server: '10.26.192.9',    
   database: 'Cubo_CMP',
@@ -130,9 +133,9 @@ function blockPublicIP(req, res, next) {
 
 
 
-app.use('/', blockPublicIP, express.static('public'));
+//app.use('/', blockPublicIP, express.static('public'));
 
-//app.use(express.static('public'));
+app.use(express.static('public'));
 
 router.get('/about',(_req, res) => {
     res.sendFile(__dirname + "/main.html");
