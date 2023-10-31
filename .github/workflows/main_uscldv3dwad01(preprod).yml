@@ -1,13 +1,15 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy Node.js app to Azure Web App - uscldv3dwad01
+name: Deploy a Produccion - uscldv3dwad01
 
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
+    inputs:
+      custom-parameter:
+        description: 'Descripcion del deploy'
+        required: false
+
 
 jobs:
   build:
