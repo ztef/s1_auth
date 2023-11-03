@@ -35,7 +35,7 @@ const dbPassword = process.env.DB_PASSWORD;
 console.log(dbPassword);
 
 const sqlconfig = {
-  user: 'command_shell',
+  user: 'usuarioSN',
   password: dbPassword,
   port:1483,
   server: '10.26.192.9',    
