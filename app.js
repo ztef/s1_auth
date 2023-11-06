@@ -861,6 +861,218 @@ async function getVIS_Calcular_FillRate_conParams(params, outs){
 }
 
 
+/**
+ * @swagger
+ * /getSP/VIS_Calcular_FillRate_conParams_conUN:
+ *   get:
+ *     summary: Execute VIS_Calcular_FillRate_conParams_conUN stored procedure.
+ *     description: Execute the VIS_Calcular_FillRate_conParams_conUN stored procedure with the provided parameters.
+ *     parameters:
+ *       - in: query
+ *         name: fechaInicio
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Start date for the query.
+ *       - in: query
+ *         name: fechaFin
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: End date for the query.
+ *       - in: query
+ *         name: RegionZTDem
+ *         schema:
+ *           type: string
+ *         description: RegionZTDem parameter description.
+ *       - in: query
+ *         name: EstadoZTDem
+ *         schema:
+ *           type: string
+ *         description: EstadoZTDem parameter description.
+ *       - in: query
+ *         name: ZonaTransporte
+ *         schema:
+ *           type: string
+ *         description: ZonaTransporte parameter description.
+ *       - in: query
+ *         name: Cliente
+ *         schema:
+ *           type: string
+ *         description: Cliente parameter description.
+ *       - in: query
+ *         name: Nombre_Cliente
+ *         schema:
+ *           type: string
+ *         description: Nombre_Cliente parameter description.
+ *       - in: query
+ *         name: Obra
+ *         schema:
+ *           type: string
+ *         description: Obra parameter description.
+ *       - in: query
+ *         name: Nombre_Obra
+ *         schema:
+ *           type: string
+ *         description: Nombre_Obra parameter description.
+ *       - in: query
+ *         name: Frente
+ *         schema:
+ *           type: string
+ *         description: Frente parameter description.
+ *       - in: query
+ *         name: Nombre_Frente
+ *         schema:
+ *           type: string
+ *         description: Nombre_Frente parameter description.
+ *       - in: query
+ *         name: Segmento
+ *         schema:
+ *           type: string
+ *         description: Segmento parameter description.
+ *       - in: query
+ *         name: AgrupProducto
+ *         schema:
+ *           type: string
+ *         description: AgrupProducto parameter description.
+ *       - in: query
+ *         name: Presentacion
+ *         schema:
+ *           type: string
+ *         description: Presentacion parameter description.
+ *       - in: query
+ *         name: Producto_Tactician
+ *         schema:
+ *           type: string
+ *         description: Producto_Tactician parameter description.
+ *       - in: query
+ *         name: vc50_Region_UN
+ *         schema:
+ *           type: string
+ *         description: vc50_Region_UN parameter description.
+ *       - in: query
+ *         name: GerenciaUN
+ *         schema:
+ *           type: string
+ *         description: GerenciaUN parameter description.
+ *       - in: query
+ *         name: vc50_UN_Tact
+ *         schema:
+ *           type: string
+ *         description: vc50_UN_Tact parameter description.
+ *       - in: query
+ *         name: masivos
+ *         schema:
+ *           type: string
+ *         description: masivos parameter description.
+ *       - in: query
+ *         name: idSpider
+ *         schema:
+ *           type: string
+ *         description: idSpider parameter description.
+ *     responses:
+ *       200:
+ *         description: Successfully executed the stored procedure.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 columnName1:
+ *                   type: string
+ *                   description: Description of the first column.
+ *                 columnName2:
+ *                   type: number
+ *                   description: Description of the second column.
+ *                 
+ *               example:
+ *                 columnName1: ExampleValue1
+ *                 columnName2: 42
+ *       500:
+ *         description: Internal server error.
+ */
+
+async function VIS_Calcular_FillRate_conParams_conUN(params, outs){
+
+
+
+  var r = await sql.connect(sqlconfig).then(
+    pool => {
+
+
+      var fechaInicio = params.fechaInicio;
+      var fechaFin = params.fechaFin;
+
+       var RegionZTDem  = params.RegionZTDem === undefined ? null : params.RegionZTDem;
+       var EstadoZTDem  =  params.EstadoZTDem === undefined ? null : params.EstadoZTDem;
+       var ZonaTransporte  =  params. ZonaTransporte === undefined ? null : params. ZonaTransporte;
+       var Cliente =  params.Cliente === undefined ? null : params.Cliente;
+       var Nombre_Cliente  =  params.Nombre_Cliente === undefined ? null : params.Nombre_Cliente;
+       var Obra  =  params.Obra === undefined ? null : params.Obra
+       var Nombre_Obra  =  params.Nombre_Obra === undefined ? null : params.Nombre_Obra;
+       var Frente  =  params.Frente  === undefined ? null : params.Frente ;
+       var Nombre_Frente  =  params.Nombre_Frente === undefined ? null : params.Nombre_Frente;
+       var Segmento  =  params.Segmento === undefined ? null : params.Segmento;
+       var AgrupProducto  =  params.AgrupProducto === undefined ? null : params.AgrupProducto;
+       var Presentacion  =  params.Presentacion === undefined ? null : params.Presentacion;
+       var Producto_Tactician  =  params.Producto_Tactician === undefined ? null : params.Producto_Tactician;
+       var vc50_Region_UN  =  params.vc50_Region_UN === undefined ? null : params.vc50_Region_UN;
+       var GerenciaUN  =  params.GerenciaUN === undefined ? null : params.GerenciaUN;
+       var vc50_UN_Tact  =  params.vc50_UN_Tact === undefined ? null : params.vc50_UN_Tact;
+       var masivos  =  params.masivos === undefined ? null : params.masivos;
+       var idSpider  =  params.idSpider === undefined ? null : params.idSpider;
+
+
+      // Stored procedure
+
+      var r = pool.request()
+          .input('fechaInicio', params.fechaInicio)
+          .input('fechaFin', params.fechaFin)
+          .input('agrupador',params.agrupador)
+          .input('RegionZTDem' , RegionZTDem)
+          .input('EstadoZTDem', EstadoZTDem)
+          .input('ZonaTransporte', ZonaTransporte)
+          .input('Cliente', Cliente)
+          .input('Nombre_Cliente', Nombre_Cliente)
+          .input('Obra', Obra)
+          .input('Nombre_Obra',Nombre_Obra)
+          .input('Frente', Frente)
+          .input('Nombre_Frente', Nombre_Frente)
+          .input('Segmento', Segmento)
+          .input('AgrupProducto', AgrupProducto)
+          .input('Presentacion',Presentacion)
+          .input('Producto_Tactician', Producto_Tactician)
+          .input('vc50_Region_UN', vc50_Region_UN)
+          .input('GerenciaUN', GerenciaUN )
+          .input('vc50_UN_Tact', vc50_UN_Tact)
+          .input('masivos', masivos)
+          .input('idSpider', idSpider)
+          .execute('VIS_Calcular_FillRate_conParams_conUN')
+      return (r)
+  }
+  ).then(
+    result => {
+      console.dir(result)
+      return(result)
+
+  }
+  ).catch(
+    err => {
+     console.log(err)
+  }
+
+
+
+  );
+
+
+  return (r)
+
+
+
+}
+
+
 
 /**
  * @swagger
@@ -2717,6 +2929,39 @@ router.get('/getSP/VIS_Calcular_FillRate_conParams',(req, res) => {
 
 });
 
+//Fillrate con Parametros con Unidad de Negocio
+
+router.get('/getSP/VIS_Calcular_FillRate_conParams_conUN',(req, res) => {
+
+  let inicio = moment();
+  console.log("Llamada a SP : ********");
+  console.log(req.query);
+
+  res.setHeader('Content-Type', 'application/json');
+
+  getVIS_Calcular_FillRate_conParams_conUN(req.query,res).then((datos)=>{
+
+            res.setHeader('Content-Type', 'application/json');
+
+            let medio = moment()
+            try{
+             if(datos=== undefined){
+                res.end(JSON.stringify({'error':'timeout'}))
+              } else {
+                res.end(JSON.stringify(datos))
+
+              }
+            } catch {
+              res.end(JSON.stringify({'error':'timeout'}))
+            }
+
+            let fin = moment()
+            console.log("Respondiendo SP en : ", fin.diff(inicio));
+
+    });
+
+
+});
 
 //Alias
 
