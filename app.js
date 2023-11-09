@@ -108,7 +108,7 @@ function blockPublicIP(req, res, next) {
   console.log("INCOMING ADDRESS:", clientIP);
 
   // Check for the URL parameter 'user' with the value 'externalAllowed'
-  const isExternalAllowed = req.query.user === 'externalAllowed';
+  const isExternalAllowed = req.query.token === 'AhjCuy765Asghnjkjhssxmklknjbaytasdryyk0';
 
   // Split the IP address into its octets
   const octets = clientIP.split('.');
