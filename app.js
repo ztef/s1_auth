@@ -35,7 +35,7 @@ const dbPassword = process.env.DB_PASSWORD;
 console.log(dbPassword);
 
 const sqlconfig = {
-  user: 'command_shell',
+  user: 'usuarioSN',
   password: dbPassword,
   port:1483,
   server: '10.26.192.9',    
@@ -108,7 +108,7 @@ function blockPublicIP(req, res, next) {
   console.log("INCOMING ADDRESS:", clientIP);
 
   // Check for the URL parameter 'user' with the value 'externalAllowed'
-  const isExternalAllowed = req.query.user === 'externalAllowed';
+  const isExternalAllowed = req.query.token === 'AhjCuy765Asghnjkjhssxmklknjbaytasdryyk0';
 
   // Split the IP address into its octets
   const octets = clientIP.split('.');
@@ -133,9 +133,9 @@ function blockPublicIP(req, res, next) {
 
 
 
-//app.use('/', blockPublicIP, express.static('public'));
+app.use('/', blockPublicIP, express.static('public'));
 
-app.use(express.static('public'));
+//app.use(express.static('public'));
 
 router.get('/about',(_req, res) => {
     res.sendFile(__dirname + "/main.html");
