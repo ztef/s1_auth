@@ -1203,6 +1203,92 @@ async function getVIS_Calcular_FillRate(params, outs){
 
 /**
  * @swagger
+ * /getSP/VIS_Inventarios:
+ *   get:
+ *     summary: Execute VIS_Inventarios stored procedure.
+ *     description: Execute the VIS_Inventarios stored procedure with the provided parameters.
+ *     parameters:
+ *       - in: query
+ *         name: fechaInicio
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Start date for the query.
+ *       - in: query
+ *         name: fechaFin
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: End date for the query.
+ *     responses:
+ *       200:
+ *         description: Successfully executed the stored procedure.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 columnName1:
+ *                   type: string
+ *                   description: Description of the first column.
+ *                 columnName2:
+ *                   type: number
+ *                   description: Description of the second column.
+ *                 
+ *               example:
+ *                 columnName1: ExampleValue1
+ *                 columnName2: 42
+ *       500:
+ *         description: Internal server error.
+ * 
+ */
+
+
+//Stored Procedure Fillrate
+
+async function getVIS_Inventarios(params, outs){
+
+
+
+  var r = await sql.connect(sqlconfig).then(
+    pool => {
+
+
+      var fechaInicio = params.fechaInicio;
+      var fechaFin = params.fechaFin;
+
+
+
+      // Stored procedure
+
+      var r = pool.request().input('fechaInicio', fechaInicio).input('fechaFin', fechaFin).execute('VIS_Inventarios');
+          
+      return (r)
+  }
+  ).then(
+    result => {
+      console.dir(result)
+      return(result)
+
+  }
+  ).catch(
+    err => {
+     console.log(err)
+  }
+
+
+
+  );
+
+
+  return (r)
+
+
+
+}
+
+/**
+ * @swagger
  * /getSP/VIS_ObtenerFechas:
  *   get:
  *     summary: Execute VIS_ObtenerFechas stored procedure.
@@ -3600,7 +3686,7 @@ router.get('/getSP/VIS_Calcular_FillRate_conParams_conUN',(req, res) => {
 
 //Alias
 
-router.get(['/getSP/VIS_Calcular_FillRate','/getSP/VIS_Calcular_FillRate_2'],(req, res) => {
+router.get(['/getSP/VIS_Inventarios'],(req, res) => {
 
   let inicio = moment();
   console.log("Llamada a SP : ********");
@@ -3608,7 +3694,7 @@ router.get(['/getSP/VIS_Calcular_FillRate','/getSP/VIS_Calcular_FillRate_2'],(re
 
   res.setHeader('Content-Type', 'application/json');
 
-  getVIS_Calcular_FillRate(req.query,res).then((datos)=>{
+  getVIS_Inventarios(req.query,res).then((datos)=>{
 
             res.setHeader('Content-Type', 'application/json');
 
