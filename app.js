@@ -1779,8 +1779,8 @@ async function getVIS_Calcular_KPI_Abasto_Detalle(params, outs){
 
        var destino  = params.destino === undefined ? null : params.destino;
        var origen  =  params.origen === undefined ? null : params.origen;
-       var transporte  =  params. transporte === undefined ? null : params. transporte;
-       var descrproduct =  params.descrpproduct === undefined ? null : params.descrpproduct;
+       var transporte  =  params.transporte === undefined ? null : params.transporte;
+       var descrproducto =  params.descrproducto === undefined ? null : params.descrproducto;
        var presentacion  =  params.presentacion === undefined ? null : params.presentacion;
        var agrupproducto  =  params.agrupproducto === undefined ? null : params.agrupproducto;
        
@@ -1792,7 +1792,7 @@ async function getVIS_Calcular_KPI_Abasto_Detalle(params, outs){
           .input('destino', destino)
           .input('origen' , origen)
           .input('transporte', transporte)
-          .input('descrpproduct', descrproduct)
+          .input('descrproducto', descrproducto)
           .input('presentacion', presentacion)
           .input('agrupproducto', agrupproducto)
        
