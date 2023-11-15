@@ -1695,6 +1695,136 @@ async function getVIS_Calcular_KPI_Abasto_FillRate(params, outs){
 
 }
 
+
+/**
+ * @swagger
+ * /getSP/VIS_Calcular_KPI_Abasto_Detalle:
+ *   get:
+ *     summary: Execute VIS_Calcular_KPI_Abasto_Detalle stored procedure.
+ *     description: Execute the specified stored procedure with the provided parameters.
+ *     parameters:
+ *       - in: query
+ *         name: fechaInicio
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Start date for the query.
+ *       - in: query
+ *         name: fechaFin
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: End date for the query.
+ *       - in: query
+ *         name: destino
+ *         schema:
+ *           type: string
+ *         description: destino parameter.
+ *       - in: query
+ *         name: origen
+ *         schema:
+ *           type: string
+ *         description: origen parameter.
+ *       - in: query
+ *         name: transporte
+ *         schema:
+ *           type: string
+ *         description: transporte parameter.
+ *       - in: query
+ *         name: descrproducto
+ *         schema:
+ *           type: string
+ *         description: descrproducto parameter.
+ *       - in: query
+ *         name: presentacion
+ *         schema:
+ *           type: string
+ *         description: presentacion parameter.
+ *       - in: query
+ *         name: agrupproducto
+ *         schema:
+ *           type: string
+ *         description: agrupproducto parameter.
+ *     responses:
+ *       200:
+ *         description: Successfully executed the stored procedure.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 columnName1:
+ *                   type: string
+ *                   description: Description of the first column.
+ *                 columnName2:
+ *                   type: number
+ *                   description: Description of the second column.
+ *                
+ *               example:
+ *                 columnName1: ExampleValue1
+ *                 columnName2: 42
+ *       500:
+ *         description: Internal server error.
+ */
+
+
+async function getVIS_Calcular_KPI_Abasto_Detalle(params, outs){
+
+
+
+  var r = await sql.connect(sqlconfig).then(
+    pool => {
+
+
+
+       var destino  = params.destino === undefined ? null : params.destino;
+       var origen  =  params.origen === undefined ? null : params.origen;
+       var transporte  =  params. transporte === undefined ? null : params. transporte;
+       var descrproduct =  params.descrpproduct === undefined ? null : params.descrpproduct;
+       var presentacion  =  params.presentacion === undefined ? null : params.presentacion;
+       var agrupproducto  =  params.agrupproducto === undefined ? null : params.agrupproducto;
+       
+      // Stored procedure
+
+      var r = pool.request()
+          .input('fechaInicio', params.fechaInicio)
+          .input('fechaFin', params.fechaFin)
+          .input('destino', destino)
+          .input('origen' , origen)
+          .input('transporte', transporte)
+          .input('descrpproduct', descrproduct)
+          .input('presentacion', presentacion)
+          .input('agrupproducto', agrupproducto)
+       
+
+          //.output('output_parameter', sql.VarChar(50))
+          .execute('VIS_Calcular_KPI_Abasto_Detalle')
+
+      return (r)
+  }
+  ).then(
+    result => {
+      console.dir(result)
+      return(result)
+
+  }
+  ).catch(
+    err => {
+     console.log(err)
+  }
+
+
+
+  );
+
+
+  return (r)
+
+
+
+}
+
+
 async function getVIS_Calcular_KPI_Abasto_FillRate_Nuevo(params, outs){
 
 
@@ -3751,6 +3881,40 @@ router.get(['/getSP/VIS_GetFrentes_FillRate'],(req, res) => {
 
 
 });
+
+
+router.get('/getSP/VIS_Calcular_KPI_Abasto_Detalle',(req, res) => {
+
+  let inicio = moment();
+  console.log("Llamada a SP : ");
+  console.log(req.query);
+
+  res.setHeader('Content-Type', 'application/json');
+
+  getVIS_Calcular_KPI_Abasto_Detalle(req.query,res).then((datos)=>{
+
+            res.setHeader('Content-Type', 'application/json');
+
+            let medio = moment()
+            try{
+             if(datos=== undefined){
+                res.end(JSON.stringify({'error':'timeout'}))
+              } else {
+                res.end(JSON.stringify(datos))
+
+              }
+            } catch {
+              res.end(JSON.stringify({'error':'timeout'}))
+            }
+
+            let fin = moment()
+            console.log("Respondiendo SP en : ", fin.diff(inicio));
+
+    });
+
+
+});
+
 
 router.get('/getSP/VIS_Calcular_KPI_Abasto_FillRate',(req, res) => {
 
