@@ -16,6 +16,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          path: auth
 
       - name: Set up Node.js version
         uses: actions/setup-node@v3
