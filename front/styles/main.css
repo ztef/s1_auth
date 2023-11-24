@@ -1,0 +1,166 @@
+@import url(Build/Cesium/Widgets/widgets.css);
+html, body, #cesiumContainer {
+      width: 100%; height: 100%; margin: 0; padding: 0; overflow: hidden;
+
+}
+
+
+    @import "//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css";
+	@import "http://fonts.googleapis.com/css?family=Roboto:400,500";
+
+	.box > .icon { text-align: center; position: relative; }
+	.box > .icon > .image { position: relative; z-index: 2; margin: auto; width: 88px; height: 88px; border: 8px solid white; line-height: 88px; border-radius: 50%; background: #63B76C; vertical-align: middle; }
+	.box > .icon:hover > .image { background: #333; }
+	.box > .icon > .image > i { font-size: 36px !important; color: #fff !important; }
+	.box > .icon:hover > .image > i { color: white !important; }
+	.box > .icon > .info { margin-top: -14px; background: rgba(0, 0, 0, 0.04); border: 1px solid #e0e0e0; padding: 7px 0 10px 0; }
+	.box > .icon:hover > .info { background: rgba(0, 0, 0, 0.04); border-color: #e0e0e0; color: white; }
+	.box > .icon > .info > h3.title { font-family: "Roboto",sans-serif !important; font-size: 16px; color: #DDE3CF; font-weight: 500; }
+	.box > .icon > .info > p { font-family: "Roboto",sans-serif !important; font-size: 13px; color: #FFF; line-height: 1.5em; margin: 10px;}
+	.box > .icon:hover > .info > h3.title, .box > .icon:hover > .info > p, .box > .icon:hover > .info > .more > a { color: #41A0BF; }
+	.box > .icon > .info > .more a { font-family: "Roboto",sans-serif !important; font-size: 12px; color: #41A0BF; line-height: 9px; text-transform: uppercase; text-decoration: none; }
+	.box > .icon:hover > .info > .more > a { color: #fff; padding: 3px 3px; background-color: #63B76C; }
+	.box .space { height: 20px; }
+
+
+
+
+    #radarDiv::-webkit-scrollbar {
+        display: none;
+      }
+      
+      
+               /* Hide scrollbar for IE, Edge and Firefox */
+      #radarDiv {
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+      }
+      
+          /* Clase para ocultar las barras de desplazamiento en navegadores WebKit */
+      .hide-scrollbar-webkit::-webkit-scrollbar {
+        width: 15px;
+        background: #5a5959; 
+        border-radius: 10px;
+        box-shadow: inset 0 0 1px rgb(37, 37, 37);
+    }
+     
+    /* Scroll */
+    .hide-scrollbar-webkit::-webkit-scrollbar-thumb {
+      background: rgba(136, 136, 136, 0.790); 
+      border-radius: 10px;
+    }
+    
+    /* Scroll Selecionado */
+    .hide-scrollbar-webkit::-webkit-scrollbar-thumb:hover {
+      background: rgba(136, 136, 136, 0.904); 
+    }
+          /* Clase para ocultar las barras de desplazamiento en Firefox */
+      .hide-scrollbar-firefox {
+        scrollbar-width: auto;
+      }
+
+          /* Clase para ocultar las barras de desplazamiento en IE y Edge */
+      .hide-scrollbar-ie-edge {
+        -ms-overflow-style: auto;
+      }
+
+#chart svg {
+  height: 100%;
+}
+
+svg text {
+    fill: gray;
+}
+
+.tick  line {
+  fill: none;
+  stroke: red;
+   opacity: .3;
+
+}
+
+
+.seleccionado{
+
+    color:yellow;
+}
+
+.listado:hover {
+
+    color: yellow;
+
+}
+#barsContainer2::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+#barsContainer2 {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.inputs{
+
+  border-style:solid;  
+  border-width:2px;
+
+}
+
+.hr{
+
+    border: 0;
+    height: 10px;
+    background: #333;
+    background-image: linear-gradient(to left, #cccccc, #000000);
+    width:100%;
+    z-index:900;
+
+}
+
+hr{
+  border: 0;
+  height: 1px;
+  background: #333;
+  background-image: linear-gradient(to left, #cccccc, #000000);
+
+  width:100%;
+  z-index:900;
+
+
+}
+
+.separador {
+
+    display: block;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    margin-left: auto;
+    margin-right: auto;
+    border-style: inset;
+    border-width: 1px;
+    width:auto;
+    top:auto;
+    position:relative;
+    border: 0;
+    height: 1px;
+    background: #333;
+    background-image: linear-gradient(to left, #cccccc, #000000);
+
+}
+
+.nvtooltip{
+
+    z-index:99999;
+    position:fixed;
+
+}
+
+
+.grad {
+    background: black; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(to top,black, rgba(0,0,0,0)); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(to top,black, rgba(0,0,0,0)); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(to top,black, rgba(0,0,0,0)); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to top,black, rgba(0,0,0,0)); /* Standard syntax */
+}
