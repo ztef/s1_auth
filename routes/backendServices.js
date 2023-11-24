@@ -56,7 +56,7 @@ router.get('/img/:file', (_req,res) => {
 );
 
 router.get('/about',(_req, res) => {
-  res.sendFile(__dirname + "./about.html");
+  res.sendFile(__dirname + "/about.html");
 });
 
 router.get('/query',(_req, res) => {
