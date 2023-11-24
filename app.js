@@ -24,7 +24,7 @@ var indexRouter = require('./routes/index');    // Router de Inicio
 var usersRouter = require('./routes/users');    // Router de Usuarios
 var authRouter = require('./routes/auth');      // Ruta de Autentificacion
 var frontRouter = require('./routes/front');    // Ruta de Fron End
-var sheetRouter = require('./routes/backendServices');   // Ruta de Servicios de backend
+var apiRouter = require('./routes/backendServices');   // Ruta de Servicios de backend
 
 const cors = require('cors');
 
@@ -79,7 +79,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/auth', authRouter);
-app.use('/sheets',sheetRouter);
+app.use('/api',apiRouter);
 app.use('/front', frontRouter);
 
 
