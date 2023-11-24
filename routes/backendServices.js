@@ -1,12 +1,4 @@
 
- 
-
-
- 
-
-
-
-
 const express = require('express')
 
 const swaggerUi = require('swagger-ui-express');
@@ -64,7 +56,7 @@ router.get('/img/:file', (_req,res) => {
 );
 
 router.get('/about',(_req, res) => {
-  res.sendFile(__dirname + "/../main.html");
+  res.sendFile(__dirname + "./about.html");
 });
 
 router.get('/query',(_req, res) => {
