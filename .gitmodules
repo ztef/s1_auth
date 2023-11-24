@@ -1,3 +1,3 @@
-[submodule "public/fillrate"]
+[submodule "front/app/fillrate"]
 	path = front/app/fillrate
 	url = https://github.com/danielCont79/fillrate.git

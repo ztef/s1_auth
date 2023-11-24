@@ -64,15 +64,15 @@ router.get('/img/:file', (_req,res) => {
 );
 
 router.get('/about',(_req, res) => {
-  res.sendFile(__dirname + "../main.html");
+  res.sendFile(__dirname + "/../main.html");
 });
 
 router.get('/query',(_req, res) => {
-  res.sendFile(__dirname + "../query.html");
+  res.sendFile(__dirname + "/../query.html");
 });
 
 router.get('/get',(_req, res) => {
-res.sendFile(__dirname + "../get.html");
+res.sendFile(__dirname + "/../get.html");
 });
 
 
