@@ -2,7 +2,7 @@
 const express = require('express')
 
 const swaggerUi = require('swagger-ui-express');
-const specs = require('./swagger'); 
+const specs = require('swagger'); 
 
 const sql = require('mssql')
 var moment = require('moment');
