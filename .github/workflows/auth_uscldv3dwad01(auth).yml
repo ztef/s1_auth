@@ -64,4 +64,5 @@ jobs:
           app-name: 'uscldv3dwad01'
           slot-name: 'auth'
           package: .
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_12E6AE6B13384E3F9DD3D9D9B4718C40 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_94F805F18C0145A8AF86899825946EA7 }}
+          
