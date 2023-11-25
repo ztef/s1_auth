@@ -9,7 +9,7 @@ const options = {
       description: 'Visualcemex API',
     },
   },
-  apis: ['backendServices.js'], 
+  apis: ['routes/backendServices.js'], 
 };
 
 const specs = swaggerJsdoc(options);
