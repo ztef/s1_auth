@@ -60,11 +60,11 @@ router.get('/about',(_req, res) => {
 });
 
 router.get('/query',(_req, res) => {
-  res.sendFile(__dirname + "/../query.html");
+  res.sendFile(__dirname + "/query.html");
 });
 
 router.get('/get',(_req, res) => {
-res.sendFile(__dirname + "/../get.html");
+res.sendFile(__dirname + "/get.html");
 });
 
 
@@ -4117,6 +4117,8 @@ router.get('/getData',(req, res) => {
 
 
 });
+
+router.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
 
 
