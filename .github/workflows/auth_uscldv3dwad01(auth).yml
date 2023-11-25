@@ -6,7 +6,7 @@ name: Deply a AUTH
 on:
   push:
     branches:
-      - auth
+      - main
   workflow_dispatch:
 
 jobs:
