@@ -5,11 +5,11 @@ const options = {
     openapi: '3.0.0',
     info: {
       title: 'CEMEX Visualcemex backend API',
-      version: '1.0.0',
+      version: '3.0.0',
       description: 'Visualcemex API',
     },
   },
-  apis: ['./backendServices.js'], 
+  apis: ['backendServices.js'], 
 };
 
 const specs = swaggerJsdoc(options);
