@@ -13,8 +13,4 @@ var router = express.Router();
 router.use(express.static('front'));
 
 
-
-
-
-
 module.exports = router;
