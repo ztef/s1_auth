@@ -326,6 +326,9 @@ async function getTable(params, outs){
     case "Vis_CatUN_Cemento":
       table = "Vis_CatUN_Cemento";
       break;
+    case "Vis_RadarConfig":
+      table = "Vis_RadarConfig";
+      break;
     
     default:
       table = "";
@@ -3456,7 +3459,337 @@ async function getVIS_Calcular_KPI_Venta_FillRate_porDia_Det(params, outs){
 }
 
 
+/**
+ * @swagger
+ * /getSP/VIS_Calcular_KPI_Venta_FillRate_Det:
+ *   get:
+ *     summary: Execute VIS_Calcular_KPI_Venta_FillRate_Det stored procedure.
+ *     description: Execute the VIS_Calcular_KPI_Venta_FillRate_Det stored procedure with the provided parameters.
+ *     parameters:
+ *       - in: query
+ *         name: fechaInicio
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Start date for the query.
+ *       - in: query
+ *         name: fechaFin
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: End date for the query.
+ *       - in: query
+ *         name: RegionZTDem
+ *         schema:
+ *           type: string
+ *         description: RegionZTDem parameter description.
+ *       - in: query
+ *         name: EstadoZTDem
+ *         schema:
+ *           type: string
+ *         description: EstadoZTDem parameter description.
+ *       - in: query
+ *         name: ZonaTransporte
+ *         schema:
+ *           type: string
+ *         description: ZonaTransporte parameter description.
+ *       - in: query
+ *         name: Cliente
+ *         schema:
+ *           type: string
+ *         description: Cliente parameter description.
+ *       - in: query
+ *         name: Nombre_Cliente
+ *         schema:
+ *           type: string
+ *         description: Nombre_Cliente parameter description.
+ *       - in: query
+ *         name: Obra
+ *         schema:
+ *           type: string
+ *         description: Obra parameter description.
+ *       - in: query
+ *         name: Nombre_Obra
+ *         schema:
+ *           type: string
+ *         description: Nombre_Obra parameter description.
+ *       - in: query
+ *         name: Frente
+ *         schema:
+ *           type: string
+ *         description: Frente parameter description.
+ *       - in: query
+ *         name: Nombre_Frente
+ *         schema:
+ *           type: string
+ *         description: Nombre_Frente parameter description.
+ *       - in: query
+ *         name: Segmento
+ *         schema:
+ *           type: string
+ *         description: Segmento parameter description.
+ *       - in: query
+ *         name: AgrupProducto
+ *         schema:
+ *           type: string
+ *         description: AgrupProducto parameter description.
+ *       - in: query
+ *         name: Presentacion
+ *         schema:
+ *           type: string
+ *         description: Presentacion parameter description.
+ *       - in: query
+ *         name: Producto_Tactician
+ *         schema:
+ *           type: string
+ *         description: Producto_Tactician parameter description.
+ *       - in: query
+ *         name: vc50_Region_UN
+ *         schema:
+ *           type: string
+ *         description: vc50_Region_UN parameter description.
+ *       - in: query
+ *         name: GerenciaUN
+ *         schema:
+ *           type: string
+ *         description: GerenciaUN parameter description.
+ *       - in: query
+ *         name: vc50_UN_Tact
+ *         schema:
+ *           type: string
+ *         description: vc50_UN_Tact parameter description.
+ *       - in: query
+ *         name: masivos
+ *         schema:
+ *           type: string
+ *         description: masivos parameter description.
+ *       - in: query
+ *         name: idSpider
+ *         schema:
+ *           type: string
+ *         description: idSpider parameter description.
+ *     responses:
+ *       200:
+ *         description: Successfully executed the stored procedure.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 columnName1:
+ *                   type: string
+ *                   description: Description of the first column.
+ *                 columnName2:
+ *                   type: number
+ *                   description: Description of the second column.
+ *                
+ *               example:
+ *                 columnName1: ExampleValue1
+ *                 columnName2: 42
+ *       500:
+ *         description: Internal server error.
+ */
+
+async function getVIS_Calcular_KPI_Venta_FillRate_Det(params, outs){
+
+
+
+  var r = await sql.connect(sqlconfig).then(
+    pool => {
+
+
+
+       var RegionZTDem  = params.RegionZTDem === undefined ? null : params.RegionZTDem;
+       var EstadoZTDem  =  params.EstadoZTDem === undefined ? null : params.EstadoZTDem;
+       var ZonaTransporte  =  params. ZonaTransporte === undefined ? null : params. ZonaTransporte;
+       var Cliente =  params.Cliente === undefined ? null : params.Cliente;
+       var Nombre_Cliente  =  params.Nombre_Cliente === undefined ? null : params.Nombre_Cliente;
+       var Obra  =  params.Obra === undefined ? null : params.Obra
+       var Nombre_Obra  =  params.Nombre_Obra === undefined ? null : params.Nombre_Obra;
+       var Frente  =  params.Frente  === undefined ? null : params.Frente ;
+       var Nombre_Frente  =  params.Nombre_Frente === undefined ? null : params.Nombre_Frente;
+       var Segmento  =  params.Segmento === undefined ? null : params.Segmento;
+       var AgrupProducto  =  params.AgrupProducto === undefined ? null : params.AgrupProducto;
+       var Presentacion  =  params.Presentacion === undefined ? null : params.Presentacion;
+       var Producto_Tactician  =  params.Producto_Tactician === undefined ? null : params.Producto_Tactician;
+       var vc50_Region_UN  =  params.vc50_Region_UN === undefined ? null : params.vc50_Region_UN;
+       var GerenciaUN  =  params.GerenciaUN === undefined ? null : params.GerenciaUN;
+       var vc50_UN_Tact  =  params.vc50_UN_Tact === undefined ? null : params.vc50_UN_Tact;
+       var masivos  =  params.masivos === undefined ? null : params.masivos;
+       var idSpider  =  params.idSpider === undefined ? null : params.idSpider;
+
+      // Stored procedure
+
+      var r = pool.request()
+          .input('fechaInicio', params.fechaInicio)
+          .input('fechaFin',params.fechaFin)
+          .input('agrupador',params.agrupador)
+          .input('RegionZTDem' , RegionZTDem)
+          .input('EstadoZTDem', EstadoZTDem)
+          .input('ZonaTransporte', ZonaTransporte)
+          .input('Cliente', Cliente)
+          .input('Nombre_Cliente', Nombre_Cliente)
+          .input('Obra', Obra)
+          .input('Nombre_Obra',Nombre_Obra)
+          .input('Frente', Frente)
+          .input('Nombre_Frente', Nombre_Frente)
+          .input('Segmento', Segmento)
+          .input('AgrupProducto', AgrupProducto)
+          .input('Presentacion',Presentacion)
+          .input('Producto_Tactician', Producto_Tactician)
+          .input('vc50_Region_UN', vc50_Region_UN)
+          .input('GerenciaUN', GerenciaUN )
+          .input('vc50_UN_Tact', vc50_UN_Tact)
+          .input('masivos', masivos)
+          .input('idSpider', idSpider)
+
+
+
+
+          //.output('output_parameter', sql.VarChar(50))
+          .execute('VIS_Calcular_KPI_Venta_FillRate_Det')
+
+      return (r)
+  }
+  ).then(
+    result => {
+      console.dir(result)
+      return(result)
+
+  }
+  ).catch(
+    err => {
+     console.log(err)
+  }
+
+  );
+
+  return (r)
+}
+
+
+/**
+ * @swagger
+ * /getSP/JDA_DesgloseProduccion:
+ *   get:
+ *     summary: Execute JDA_DesgloseProduccion stored procedure.
+ *     description: Execute the JDA_DesgloseProduccion stored procedure with the provided parameters.
+ *     parameters:
+ *       - in: query
+ *         name: fechaInicio
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Start date for the query.
+ *       - in: query
+ *         name: fechaFin
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: End date for the query.
+ *     responses:
+ *       200:
+ *         description: Successfully executed the stored procedure.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 columnName1:
+ *                   type: string
+ *                   description: Description of the first column.
+ *                 columnName2:
+ *                   type: number
+ *                   description: Description of the second column.
+ *                 
+ *               example:
+ *                 columnName1: ExampleValue1
+ *                 columnName2: 42
+ *       500:
+ *         description: Internal server error.
+ * 
+ * 
+*/
+//JDA_DesgloseProduccion
+
+async function getJDA_DesgloseProduccion(params, outs){
+
+
+
+  var r = await sql.connect(sqlconfig).then(
+    pool => {
+
+
+      var fechaInicio = params.fechaInicio;
+      var fechaFin = params.fechaFin;
+
+
+
+      // Stored procedure
+
+      var r = pool.request().input('fechaInicio', fechaInicio).input('fechaFin', fechaFin).execute('JDA_DesgloseProduccion');
+          
+      return (r)
+  }
+  ).then(
+    result => {
+      console.dir(result)
+      return(result)
+
+  }
+  ).catch(
+    err => {
+     console.log(err)
+  }
+
+
+
+  );
+
+
+  return (r)
+
+
+
+}
+
+
+
   //ROUTER'S
+
+//JDA Desglose Produccion
+
+router.get(['/getSP/JDA_DesgloseProduccion'],(req, res) => {
+
+  let inicio = moment();
+  console.log("Llamada a SP : ********");
+  console.log(req.query);
+
+  res.setHeader('Content-Type', 'application/json');
+
+  getJDA_DesgloseProduccion(req.query,res).then((datos)=>{
+
+            res.setHeader('Content-Type', 'application/json');
+
+            let medio = moment()
+            try{
+             if(datos=== undefined){
+                res.end(JSON.stringify({'error':'timeout'}))
+              } else {
+                res.end(JSON.stringify(datos))
+
+              }
+            } catch {
+              res.end(JSON.stringify({'error':'timeout'}))
+            }
+
+            let fin = moment()
+            console.log("Respondiendo SP en : ", fin.diff(inicio));
+
+    });
+
+
+});
 
   // Obtener Fechas
 
@@ -3469,6 +3802,40 @@ router.get(['/getSP/VIS_ObtenerFechas'],(req, res) => {
   res.setHeader('Content-Type', 'application/json');
 
   getVIS_ObtenerFechas(req.query,res).then((datos)=>{
+
+            res.setHeader('Content-Type', 'application/json');
+
+            let medio = moment()
+            try{
+             if(datos=== undefined){
+                res.end(JSON.stringify({'error':'timeout'}))
+              } else {
+                res.end(JSON.stringify(datos))
+
+              }
+            } catch {
+              res.end(JSON.stringify({'error':'timeout'}))
+            }
+
+            let fin = moment()
+            console.log("Respondiendo SP en : ", fin.diff(inicio));
+
+    });
+
+
+});
+
+// Venta FillRate Detalle
+
+router.get(['/getSP/VIS_Calcular_KPI_Venta_FillRate_Det'],(req, res) => {
+
+  let inicio = moment();
+  console.log("Llamada a SP : ********");
+  console.log(req.query);
+
+  res.setHeader('Content-Type', 'application/json');
+
+  getVIS_Calcular_KPI_Venta_FillRate_Det(req.query,res).then((datos)=>{
 
             res.setHeader('Content-Type', 'application/json');
 
@@ -3526,7 +3893,7 @@ router.get(['/getSP/VIS_Calcular_KPI_Venta_FillRate_porDia_Det'],(req, res) => {
 
 });
 
-// Venta por dia
+// Venta por dia Fill Rate
 
 router.get(['/getSP/VIS_Calcular_KPI_Venta_FillRate_porDia'],(req, res) => {
 
@@ -3560,7 +3927,7 @@ router.get(['/getSP/VIS_Calcular_KPI_Venta_FillRate_porDia'],(req, res) => {
 
 });
 
-// Venta por dia
+// Venta por dia Flota
 
 router.get(['/getSP/VIS_Calcular_KPI_Flota_FillRate_PorDia'],(req, res) => {
 
@@ -3628,8 +3995,8 @@ router.get(['/getSP/VIS_Calcular_KPI_PedidosPendientes_Estado'],(req, res) => {
 
 });
 
-
 //OOS Filial
+
 router.get(['/getSP/VIS_Calcular_OOSFilial'],(req, res) => {
 
   let inicio = moment();
@@ -3731,7 +4098,7 @@ router.get('/getSP/VIS_Calcular_FillRate_conParams_conUN',(req, res) => {
 });
 
 
-//Alias
+//Inventarios
 
 router.get(['/getSP/VIS_Inventarios'],(req, res) => {
 
@@ -3765,7 +4132,7 @@ router.get(['/getSP/VIS_Inventarios'],(req, res) => {
 
 });
 
-//Alias
+//Frentes Fillrate
 
 router.get(['/getSP/VIS_GetFrentes_FillRate'],(req, res) => {
 
@@ -3799,6 +4166,7 @@ router.get(['/getSP/VIS_GetFrentes_FillRate'],(req, res) => {
 
 });
 
+//Abasto Detalle
 
 router.get('/getSP/VIS_Calcular_KPI_Abasto_Detalle',(req, res) => {
 
@@ -3832,6 +4200,7 @@ router.get('/getSP/VIS_Calcular_KPI_Abasto_Detalle',(req, res) => {
 
 });
 
+//Abasto Fillrate
 
 router.get('/getSP/VIS_Calcular_KPI_Abasto_FillRate',(req, res) => {
 
@@ -3864,6 +4233,8 @@ router.get('/getSP/VIS_Calcular_KPI_Abasto_FillRate',(req, res) => {
 
 
 });
+
+//Produccion Fillrate
 
 router.get('/getSP/VIS_Calcular_KPI_Produccion_FillRate',(req, res) => {
 
@@ -3897,6 +4268,8 @@ router.get('/getSP/VIS_Calcular_KPI_Produccion_FillRate',(req, res) => {
 
 });
 
+//Produccion Fillrate Nuevo
+
 router.get('/getSP/VIS_Calcular_KPI_Produccion_FillRate_Nuevo',(req, res) => {
 
   let inicio = moment();
@@ -3928,6 +4301,8 @@ router.get('/getSP/VIS_Calcular_KPI_Produccion_FillRate_Nuevo',(req, res) => {
 
 
 });
+
+//Abasto Fillrate
 
 router.get('/getSP/VIS_Calcular_KPI_Abasto_FillRate',(req, res) => {
 
@@ -3961,6 +4336,8 @@ router.get('/getSP/VIS_Calcular_KPI_Abasto_FillRate',(req, res) => {
 
 });
 
+//Abasto Fillrate Nuevo
+
 router.get('/getSP/VIS_Calcular_KPI_Abasto_FillRate_Nuevo',(req, res) => {
 
   let inicio = moment();
@@ -3993,6 +4370,7 @@ router.get('/getSP/VIS_Calcular_KPI_Abasto_FillRate_Nuevo',(req, res) => {
 
 });
 
+//GetSP Generico
 
 router.get('/getSP/Generico',(req, res) => {
 
@@ -4028,6 +4406,7 @@ router.get('/getSP/Generico',(req, res) => {
 
 });
 
+//Cadena Generico
 
 router.get('/getSP/Cadena/Generico',(req, res) => {
 
@@ -4061,12 +4440,7 @@ router.get('/getSP/Cadena/Generico',(req, res) => {
 
 });
 
-
-
-
-
-
-
+//Get Table
 
 router.get('/getTable',(req, res) => {
 
@@ -4100,8 +4474,7 @@ router.get('/getTable',(req, res) => {
 
 });
 
-
-
+//Get Data
 
 router.get('/getData',(req, res) => {
 
