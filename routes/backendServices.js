@@ -1150,6 +1150,11 @@ async function getVIS_Calcular_FillRate(params, outs){
  *         schema:
  *           type: string
  *         description: GerenciaUN parameter description.
+ *       - in: query
+ *         name: vc50_UN_Tact
+ *         schema:
+ *           type: string
+ *         description: vc50_UN_Tact parameter description.
  *     responses:
  *       200:
  *         description: Successfully executed the stored procedure.
@@ -1188,10 +1193,11 @@ async function getVIS_Inventarios(params, outs){
       var fechaFin = params.fechaFin;
       var vc50_Region_UN  =  params.vc50_Region_UN === undefined ? null : params.vc50_Region_UN;
       var GerenciaUN  =  params.GerenciaUN === undefined ? null : params.GerenciaUN;
+      var vc50_UN_Tact  =  params.vc50_UN_Tact === undefined ? null : params.vc50_UN_Tact;
 
       // Stored procedure
 
-      var r = pool.request().input('fechaInicio', fechaInicio).input('fechaFin', fechaFin).input('vc50_Region_UN').input('GerenciaUN', GerenciaUN).execute('VIS_Inventarios');
+      var r = pool.request().input('fechaInicio', fechaInicio).input('fechaFin', fechaFin).input('vc50_Region_UN', vc50_Region_UN).input('GerenciaUN', GerenciaUN).input('vc50_UN_Tact',vc50_UN_Tact).execute('VIS_Inventarios');
           
       return (r)
   }
@@ -1216,6 +1222,7 @@ async function getVIS_Inventarios(params, outs){
 
 
 }
+
 
 /**
  * @swagger
@@ -3707,6 +3714,11 @@ async function getVIS_Calcular_KPI_Venta_FillRate_Det(params, outs){
  *         schema:
  *           type: string
  *         description: GerenciaUN parameter description.
+ *       - in: query
+ *         name: vc50_UN_Tact
+ *         schema:
+ *           type: string
+ *         description: vc50_UN_Tact parameter description.
  *     responses:
  *       200:
  *         description: Successfully executed the stored procedure.
@@ -3744,10 +3756,10 @@ async function getJDA_DesgloseProduccion(params, outs){
       var fechaFin = params.fechaFin;
       var vc50_Region_UN  =  params.vc50_Region_UN === undefined ? null : params.vc50_Region_UN;
       var GerenciaUN  =  params.GerenciaUN === undefined ? null : params.GerenciaUN;
-
+      var vc50_UN_Tact  =  params.vc50_UN_Tact === undefined ? null : params.vc50_UN_Tact;
       // Stored procedure
 
-      var r = pool.request().input('fechaInicio', fechaInicio).input('fechaFin', fechaFin).input('vc50_Region_UN').input('GerenciaUN', GerenciaUN).execute('JDA_DesgloseProduccion');
+      var r = pool.request().input('fechaInicio', fechaInicio).input('fechaFin', fechaFin).input('vc50_Region_UN').input('GerenciaUN', GerenciaUN).input('vs50_UN_Tact', vc50_UNTact).execute('JDA_DesgloseProduccion');
           
       return (r)
   }
