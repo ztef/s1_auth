@@ -1123,7 +1123,7 @@ async function getVIS_Calcular_FillRate(params, outs){
 
 /**
  * @swagger
- * /getSP/VIS_Inventarios:
+ * /api/getSP/VIS_Inventarios:
  *   get:
  *     summary: Execute VIS_Inventarios stored procedure.
  *     description: Execute the VIS_Inventarios stored procedure with the provided parameters.
@@ -1140,6 +1140,16 @@ async function getVIS_Calcular_FillRate(params, outs){
  *         schema:
  *           type: string
  *         description: End date for the query.
+ *       - in: query
+ *         name: vc50_Region_UN
+ *         schema:
+ *           type: string
+ *         description: vc50_Region_UN parameter description.
+ *       - in: query
+ *         name: GerenciaUN
+ *         schema:
+ *           type: string
+ *         description: GerenciaUN parameter description.
  *     responses:
  *       200:
  *         description: Successfully executed the stored procedure.
@@ -1176,12 +1186,12 @@ async function getVIS_Inventarios(params, outs){
 
       var fechaInicio = params.fechaInicio;
       var fechaFin = params.fechaFin;
-
-
+      var vc50_Region_UN  =  params.vc50_Region_UN === undefined ? null : params.vc50_Region_UN;
+      var GerenciaUN  =  params.GerenciaUN === undefined ? null : params.GerenciaUN;
 
       // Stored procedure
 
-      var r = pool.request().input('fechaInicio', fechaInicio).input('fechaFin', fechaFin).execute('VIS_Inventarios');
+      var r = pool.request().input('fechaInicio', fechaInicio).input('fechaFin', fechaFin).input('vc50_Region_UN').input('GerenciaUN', GerenciaUN).execute('VIS_Inventarios');
           
       return (r)
   }
@@ -3687,6 +3697,16 @@ async function getVIS_Calcular_KPI_Venta_FillRate_Det(params, outs){
  *         schema:
  *           type: string
  *         description: End date for the query.
+ *       - in: query
+ *         name: vc50_Region_UN
+ *         schema:
+ *           type: string
+ *         description: vc50_Region_UN parameter description.
+ *       - in: query
+ *         name: GerenciaUN
+ *         schema:
+ *           type: string
+ *         description: GerenciaUN parameter description.
  *     responses:
  *       200:
  *         description: Successfully executed the stored procedure.
@@ -3722,12 +3742,12 @@ async function getJDA_DesgloseProduccion(params, outs){
 
       var fechaInicio = params.fechaInicio;
       var fechaFin = params.fechaFin;
-
-
+      var vc50_Region_UN  =  params.vc50_Region_UN === undefined ? null : params.vc50_Region_UN;
+      var GerenciaUN  =  params.GerenciaUN === undefined ? null : params.GerenciaUN;
 
       // Stored procedure
 
-      var r = pool.request().input('fechaInicio', fechaInicio).input('fechaFin', fechaFin).execute('JDA_DesgloseProduccion');
+      var r = pool.request().input('fechaInicio', fechaInicio).input('fechaFin', fechaFin).input('vc50_Region_UN').input('GerenciaUN', GerenciaUN).execute('JDA_DesgloseProduccion');
           
       return (r)
   }
